@@ -130,13 +130,13 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="static/images/result.png" alt="MY ALT TEXT"/>
+      <img src="static/images/result.png" width="832" alt="MY ALT TEXT"/>
       <!-- <video poster="" id="tree" autoplay controls muted loop height="100%">
         <source src="static/videos/banner_video.mp4"
         type="video/mp4">
       </video> -->
       <h2 class="subtitle has-text-centered">
-        we present <b>Sim2Real<sup>2</sup></b>, a robot learning framework for precise articulated object manipulation. We first build the explicit physics model of the target object through active interaction and then use MPC to search for a long-horizon manipulation trajectory. Quantitative evaluation of real object manipulation results verifies the effectiveness of our proposed framework (<em>see above</em>).
+        We present <b>Sim2Real<sup>2</sup></b>, a robot learning framework for precise articulated object manipulation. We first build the explicit physics model of the target object through active interaction and then use MPC to search for a long-horizon manipulation trajectory. Quantitative evaluation of real object manipulation results verifies the effectiveness of our proposed framework (<em>see above</em>).
       </h2>
     </div>
   </div>
@@ -155,6 +155,7 @@
           </p>
         </div>
       </div>
+      <img src="static/images/teaser.png" width="800" alt="MY ALT TEXT"/>
     </div>
   </div>
 </section>
@@ -165,33 +166,34 @@
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
+      <h2 class="title is-3">Results</h2>
       <div id="results-carousel" class="carousel results-carousel">
        <div class="item">
         <!-- Your image here -->
-        <img src="static/images/carousel1.jpg" alt="MY ALT TEXT"/>
+        <img src="static/images/trajectory.png" alt="MY ALT TEXT"/>
         <h2 class="subtitle has-text-centered">
-          First image description.
+          Trajectories of laptop manipulation: (a) open; (b) close. The constructed digital twin precisely captures the kinematic property of the articulated object, leading to the accurate alignment of Sim and Real.         
         </h2>
       </div>
       <div class="item">
         <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="MY ALT TEXT"/>
+        <img src="static/images/use tools.png" alt="MY ALT TEXT"/>
         <h2 class="subtitle has-text-centered">
-          Second image description.
+          Open drawer with tools. In real scenarios, the object may be beyond the robot's reach, or the gripper cannot fit into the object's size. Our method can be extended to tool-using cases. As shown in these two sequences, the robot uses a T-shaped tool or a semi-ring to open the small drawer.
         </h2>
       </div>
       <div class="item">
         <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="MY ALT TEXT"/>
+        <img src="static/images/ablation.png" alt="MY ALT TEXT"/>
         <h2 class="subtitle has-text-centered">
-         Third image description.
+          Results of ablation study on reward function. The 5 tasks are opening/closing drawer, opening/closing laptop and turning faucet. The task is considered to be failed if it is not done when time step reaches 50.
        </h2>
      </div>
      <div class="item">
       <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="MY ALT TEXT"/>
+      <img src="static/images/IP_ablation.png" alt="MY ALT TEXT"/>
       <h2 class="subtitle has-text-centered">
-        Fourth image description.
+        Ablation study on Interactive Perception. The model constructed with Interactive Perception (IP) has more accurate movable part segmentation and joint axis estimation than without IP.
       </h2>
     </div>
   </div>
@@ -225,6 +227,7 @@
 
 
 <!-- Video carousel -->
+<!--
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
@@ -232,21 +235,18 @@
       <div id="results-carousel" class="carousel results-carousel">
         <div class="item item-video1">
           <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
             <source src="static/videos/carousel1.mp4"
             type="video/mp4">
           </video>
         </div>
         <div class="item item-video2">
           <video poster="" id="video2" autoplay controls muted loop height="100%">
-            <!-- Your video file here -->
             <source src="static/videos/carousel2.mp4"
             type="video/mp4">
           </video>
         </div>
         <div class="item item-video3">
           <video poster="" id="video3" autoplay controls muted loop height="100%">\
-            <!-- Your video file here -->
             <source src="static/videos/carousel3.mp4"
             type="video/mp4">
           </video>
@@ -255,6 +255,7 @@
     </div>
   </div>
 </section>
+-->
 <!-- End video carousel -->
 
 
@@ -263,6 +264,7 @@
 
 
 <!-- Paper poster -->
+<!--
 <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
@@ -274,6 +276,7 @@
       </div>
     </div>
   </section>
+-->
 <!--End paper poster -->
 
 
