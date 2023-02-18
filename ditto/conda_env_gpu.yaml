@@ -1,0 +1,16 @@
+name: Ditto
+
+channels:
+  - pytorch
+  - conda-forge
+  - pyg
+
+dependencies:
+  - python=3.8
+  - pip
+  - cudatoolkit=11.3
+  - pytorch=1.10.2=py3.8_cuda11.3_cudnn8.2.0_0
+  - torchvision
+  - pytorch-scatter
+  - pip:
+      - -r requirements.txt
