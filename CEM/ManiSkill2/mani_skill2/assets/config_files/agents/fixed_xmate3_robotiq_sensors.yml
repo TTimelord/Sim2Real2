@@ -1,0 +1,470 @@
+agent_class: "FixedXmate3Robotiq"
+name: "fixed_xmate3_robotiq"
+urdf_file: "fixed_xmate3_robotiq.urdf"
+urdf_config:
+  materials:
+    gripper:
+      static_friction: 20.0
+      dynamic_friction: 20.0
+      restitution: 0.0
+  links:
+    left_inner_finger_pad:
+      material: "gripper"
+      patch_radius: 0.1
+      min_patch_radius: 0.1
+    right_inner_finger_pad:
+      material: "gripper"
+      patch_radius: 0.1
+      min_patch_radius: 0.1
+default_init_qpos: [ 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0 ]
+default_control_mode: "pd_joint_pos"
+torque_freq: 10
+cameras:
+  - name: "base_camera"
+    mount: "camera_base_link"
+    hide_mount_link: true
+    mount_p: [ 0,0,0 ]
+    mount_q: [ 1,0,0,0 ]
+    width: 1920
+    height: 1080
+    near: 0.001
+    far: 10
+    fx: 1380
+    fy: 1380
+    cx: 960
+    cy: 540
+    skew: 0
+  - name: "hand_camera"
+    mount: "camera_hand_link"
+    hide_mount_link: true
+    mount_p: [ 0,0,0 ]
+    mount_q: [ 1,0,0,0 ]
+    width: 1920
+    height: 1080
+    near: 0.001
+    far: 10
+    fx: 1380
+    fy: 1380
+    cx: 960
+    cy: 540
+    skew: 0
+sensors:
+  - name: "base_d415"
+    mount: "camera_base_link"
+    rgb_resolution: [ 960, 540 ]
+    ir_resolution: [ 960, 540 ]
+    rgb_intrinsic: [ 1.3875e03, 0., 9.8259e02, 0., 1.3862e03, 5.6532e02, 0., 0., 1. ]
+    ir_intrinsic: [ 672, 0., 475.94, 0., 672, 270.71, 0., 0., 1. ]
+    trans_pose_l: [ -0.0008183810985, -0.0173809196, -0.002242552045, 9.99986449e-01, 5.69235052e-04, 1.23234267e-03, -5.02592655e-03 ]
+    trans_pose_r: [ -0.0008183810985, -0.07214373, -0.002242552045, 9.99986449e-01, 5.69235052e-04, 1.23234267e-03, -5.02592655e-03 ]
+    light_pattern_path: "descriptions/realsense2_description/d415-pattern-sq.png"
+    max_depth: 9.0
+    min_depth: 0.0
+    ir_ambient_strength: 0.002
+    ir_light_dim_factor: 0.05
+    ir_light_fov: 1.57
+    ir_intensity: 5.0
+controllers:
+  pd_joint_pos:
+    - controller_type: "GeneralPDJointPosController"
+      interpolate: false
+      use_delta: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_pos_min: -3.0527
+      joint_pos_max: 3.0527
+      joint_stiffness: 3000
+      joint_damping: 1
+      joint_friction: 0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 100
+      joint_damping: 10
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  pd_joint_delta_pos:
+    - controller_type: "GeneralPDJointPosController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_delta_pos_min: -0.05
+      joint_delta_pos_max: 0.05
+      joint_stiffness: 3000
+      joint_damping: 1
+      joint_friction: 0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  pd_ee_delta_pos:
+    - controller_type: "ArmPDEEDeltaPositionController"
+      interpolate: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      ee_delta_pos_min: -0.01
+      ee_delta_pos_max: 0.01
+      joint_stiffness: 3000
+      joint_damping: 1
+      joint_friction: 0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  pd_joint_vel:
+    - controller_type: "GeneralPDJointVelController"
+      interpolate: false
+      use_delta: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_damping: 100
+      joint_vel_min: -1.0
+      joint_vel_max: 1.0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_joint_pos:
+    - controller_type: "ArmImpJointPosKpKdController"
+      interpolate: false
+      use_delta: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_pos_min: -3.0527
+      joint_pos_max: 3.0527
+      joint_kp_min: 0
+      joint_kp_max: 300000
+      joint_kd_min: 0.8
+      joint_kd_max: 1.2
+      filter_para: 0.01
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_joint_delta_pos_kpkd:
+    - controller_type: "ArmImpJointPosKpKdController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_delta_pos_min: -0.05
+      joint_delta_pos_max: 0.05
+      joint_kp_min: 0
+      joint_kp_max: 300000
+      joint_kd_min: 0.8
+      joint_kd_max: 1.2
+      filter_para: 0.01
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_joint_delta_pos_vel_kpkd:
+    - controller_type: "ArmImpJointPosVelKpKdController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_delta_pos_min: -0.05
+      joint_delta_pos_max: 0.05
+      joint_vel_min: -1.0
+      joint_vel_max: 1.0
+      joint_kp_min: 0
+      joint_kp_max: 300000
+      joint_kd_min: 0.8
+      joint_kd_max: 1.2
+      filter_para: 0.01
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_joint_vel_kd:
+    - controller_type: "ArmImpJointVelKdController"
+      interpolate: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_vel_min: -1.0
+      joint_vel_max: 1.0
+      joint_kd_min: 100
+      joint_kd_max: 300
+      filter_para: 0.01
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.06
+  imp_joint_delta_pos_kp:
+    - controller_type: "ArmImpJointPosKpController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_delta_pos_min: -0.05
+      joint_delta_pos_max: 0.05
+      joint_kp_min: 0
+      joint_kp_max: 300000
+      joint_kd: 1.0
+      filter_para: 0.01
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_joint_delta_pos_const:
+    - controller_type: "ArmImpJointPosConstController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_delta_pos_min: -0.05
+      joint_delta_pos_max: 0.05
+      joint_kp: 10000
+      joint_kd: 1.0
+      filter_para: 0.01
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_ee_pos:
+    - controller_type: "ArmImpEEPosKpKdController"
+      interpolate: false
+      use_delta: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      ee_pos_min: -3
+      ee_pos_max: 3
+      ee_kp_min: 0
+      ee_kp_max: 300000
+      ee_kd_min: 0.8
+      ee_kd_max: 1.2
+      filter_para: 0.01
+      nullspace_stiffness: 10.0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_ee_delta_pos_kpkd:
+    - controller_type: "ArmImpEEPosKpKdController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      ee_delta_pos_min: -0.05
+      ee_delta_pos_max: 0.05
+      ee_kp_min: 0
+      ee_kp_max: 300000
+      ee_kd_min: 0.8
+      ee_kd_max: 1.2
+      filter_para: 0.01
+      nullspace_stiffness: 10.0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_ee_delta_pos_kp:
+    - controller_type: "ArmImpEEPosKpController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      ee_delta_pos_min: -0.05
+      ee_delta_pos_max: 0.05
+      ee_kp_min: 0
+      ee_kp_max: 300000
+      ee_kd: 1.0
+      filter_para: 0.01
+      nullspace_stiffness: 10.0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  imp_ee_delta_pos_const:
+    - controller_type: "ArmImpEEPosConstController"
+      interpolate: false
+      use_delta: true
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      ee_delta_pos_min: -0.05
+      ee_delta_pos_max: 0.05
+      ee_kp: 10000
+      ee_kd: 1.0
+      filter_para: 0.01
+      nullspace_stiffness: 10.0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.066
+  imp_ee_pos_vel:
+    - controller_type: "ArmImpEEPosVelKpKdController"
+      interpolate: false
+      use_delta: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      ee_pos_min: -3
+      ee_pos_max: 3
+      ee_vel_min: -3
+      ee_vel_max: 3
+      ee_kp_min: 0
+      ee_kp_max: 300000
+      ee_kd_min: 0.8
+      ee_kd_max: 1.2
+      filter_para: 0.01
+      nullspace_stiffness: 10.0
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
+  pd_ee_twist:
+    - controller_type: "GeneralPDEETwistController"
+      interpolate: false
+      control_joints: [ 'joint1', 'joint2',
+                        'joint3', 'joint4',
+                        'joint5', 'joint6',
+                        'joint7', ]
+      controller_name: "ArmController"
+      joint_damping: 100
+      joint_vel_min: -1.0
+      joint_vel_max: 1.0
+      ee_twist_min: [-1, -1, -1, -1, -1, -1, 0]
+      ee_twist_max: [1, 1, 1, 1, 1, 1, 2]
+      regularization_weight: 100
+    - controller_type: "GripperPDJointPosMimicController"
+      interpolate: false
+      control_joints: [ 'robotiq_2f_140_left_driver_joint', 'robotiq_2f_140_right_driver_joint' ]
+      controller_name: 'RobotiQMimic'
+      joint_stiffness: 10000
+      joint_damping: 100
+      joint_friction: 0.2
+      joint_force_limit: 10
+      joint_pos_min: 0.0
+      joint_pos_max: 0.068
