@@ -319,6 +319,18 @@ def main_rl(rollout, evaluator, replay, args, cfg, expert_replay=None, recent_tr
         dist.destroy_process_group()
 
 
+def main_mpc(rollout, evaluator, cfg):
+    from maniskill2_learn.methods.builder import build_agent
+
+    cfg.agent_cfg["rollout"] = rollout
+    policy = build_agent(cfg.agent_cfg)
+    lens, rewards, finishes = evaluator.run(policy, **cfg.eval_cfg, work_dir=args.work_dir)
+
+    from maniskill2_learn.env import save_eval_statistics
+
+    save_eval_statistics(args.work_dir, lens, rewards, finishes)
+
+
 def run_one_process(rank, world_size, args, cfg):
     import numpy as np
 
@@ -429,7 +441,13 @@ def run_one_process(rank, world_size, args, cfg):
     # Output version of important packages
     log_meta_info(logger)
 
-    main_rl(rollout, evaluator, replay, args, cfg, expert_replay=expert_replay, recent_traj_replay=recent_traj_replay)
+
+    from maniskill2_learn.methods.builder import MPC
+
+    if cfg.agent_cfg.type in MPC:
+        main_mpc(rollout, evaluator, cfg)
+    else:
+        main_rl(rollout, evaluator, replay, args, cfg, expert_replay=expert_replay, recent_traj_replay=recent_traj_replay)
 
     if is_not_null(evaluator):
         evaluator.close()

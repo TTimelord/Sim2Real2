@@ -636,6 +636,9 @@ class RenderInfoWrapper(ExtendedWrapper):
 
         if mode == "rgb_array" or mode == "cameras":
             img = super().render(mode=mode, **kwargs)
+            # mlq added
+            img = (img*255).astype(np.uint8)
+            ###
             return put_info_on_image(
                 img, self._info_for_render, extras=None, overlay=True
             )

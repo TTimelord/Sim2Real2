@@ -17,11 +17,11 @@ import numpy as np
 from contextlib import contextmanager
 from scipy.special import softmax
 
-from pyrl.schedulers import build_scheduler
-from pyrl.utils.data import to_np
-from pyrl.utils.data.dict_array import GDict
-from pyrl.utils.math import trunc_normal
-from pyrl.utils.meta import get_logger
+from maniskill2_learn.schedulers import build_scheduler
+from maniskill2_learn.utils.data import to_np
+from maniskill2_learn.utils.data.dict_array import GDict
+from maniskill2_learn.utils.math import trunc_normal
+from maniskill2_learn.utils.meta import get_logger
 from ..builder import MPC
 
 
@@ -139,7 +139,7 @@ class CEM:
 
         cem_cfg["eval_function"] = self.reward
         cem_cfg["use_log"] = use_log
-        self.optimizer = CEMOptimizer(**cem_cfg, iscost=self.rollout.iscost)
+        self.optimizer = CEMOptimizer(**cem_cfg)
         self.cem_cfg = cem_cfg
 
         self.scheduler = build_scheduler(scheduler_config)

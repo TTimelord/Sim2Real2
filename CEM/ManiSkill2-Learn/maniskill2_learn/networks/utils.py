@@ -38,43 +38,45 @@ def get_kwargs_from_shape(obs_shape, action_shape):
         if "hand_pose" in obs_shape:
             replaceable_kwargs["nhand"] = obs_shape["hand_pose"][1]
 
-        if "xyz" in obs_shape:
-            visual_key = "pointcloud"
-            visual_shape = obs_shape
-        else:
-            visual_key = [name for name in obs_shape.keys() if name in PCD_KEYS or name in IMAGE_KEYS][0]
-            visual_shape = obs_shape
+        ###### mlq commented
+        # if "xyz" in obs_shape:
+        #     visual_key = "pointcloud"
+        #     visual_shape = obs_shape
+        # else:
+        #     visual_key = [name for name in obs_shape.keys() if name in PCD_KEYS or name in IMAGE_KEYS][0]
+        #     visual_shape = obs_shape
 
-        if visual_key in PCD_KEYS:
-            # For mani_skill point cloud input
-            pcd_all_channel, pcd_xyz_rgb_channel = 0, 0
-            for name in ["xyz", "rgb"]:
-                if name in visual_shape:
-                    pcd_xyz_rgb_channel += visual_shape[name][-1]
-                    pcd_all_channel += visual_shape[name][-1]
-            if "seg" in visual_shape:
-                replaceable_kwargs["num_objs"] = visual_shape["seg"][-1]
-                pcd_all_channel += visual_shape["seg"][-1]
-            if "target_object_point" in visual_shape:
-                pcd_all_channel += visual_shape["target_object_point"]
-            replaceable_kwargs["pcd_all_channel"] = pcd_all_channel
-            replaceable_kwargs["pcd_xyz_rgb_channel"] = pcd_xyz_rgb_channel
-            replaceable_kwargs["pcd_xyz_channel"] = 3
+        # if visual_key in PCD_KEYS:
+        #     # For mani_skill point cloud input
+        #     pcd_all_channel, pcd_xyz_rgb_channel = 0, 0
+        #     for name in ["xyz", "rgb"]:
+        #         if name in visual_shape:
+        #             pcd_xyz_rgb_channel += visual_shape[name][-1]
+        #             pcd_all_channel += visual_shape[name][-1]
+        #     if "seg" in visual_shape:
+        #         replaceable_kwargs["num_objs"] = visual_shape["seg"][-1]
+        #         pcd_all_channel += visual_shape["seg"][-1]
+        #     if "target_object_point" in visual_shape:
+        #         pcd_all_channel += visual_shape["target_object_point"]
+        #     replaceable_kwargs["pcd_all_channel"] = pcd_all_channel
+        #     replaceable_kwargs["pcd_xyz_rgb_channel"] = pcd_xyz_rgb_channel
+        #     replaceable_kwargs["pcd_xyz_channel"] = 3
 
-        elif visual_key in IMAGE_KEYS:
-            # For new maniskill callback envs
-            if len(visual_shape[visual_key]) == 3:
-                num_images = 1
-            else: 
-                assert len(visual_shape[visual_key]) == 4, f"You need to provide either 3-dim or 5-dim inputs! The input shape is {visual_shape[visual_key]}!"
-                num_images = visual_shape[visual_key][0]  # [K, C, N, M]
-            replaceable_kwargs["image_size"], replaceable_kwargs["num_images"] = visual_shape[visual_key][-2:], num_images
-            replaceable_kwargs["num_pixels"] = np.prod(replaceable_kwargs["image_size"])
-            replaceable_kwargs["image_channels"] = (
-                sum([visual_shape[name][-3] for name in ["rgb", "depth", "seg"] if name in visual_shape]) * num_images
-            )
-            if "depth" in visual_shape and "seg" in visual_shape:
-                replaceable_kwargs["seg_per_image"] = visual_shape["seg"][-3]
+        # elif visual_key in IMAGE_KEYS:
+        #     # For new maniskill callback envs
+        #     if len(visual_shape[visual_key]) == 3:
+        #         num_images = 1
+        #     else: 
+        #         assert len(visual_shape[visual_key]) == 4, f"You need to provide either 3-dim or 5-dim inputs! The input shape is {visual_shape[visual_key]}!"
+        #         num_images = visual_shape[visual_key][0]  # [K, C, N, M]
+        #     replaceable_kwargs["image_size"], replaceable_kwargs["num_images"] = visual_shape[visual_key][-2:], num_images
+        #     replaceable_kwargs["num_pixels"] = np.prod(replaceable_kwargs["image_size"])
+        #     replaceable_kwargs["image_channels"] = (
+        #         sum([visual_shape[name][-3] for name in ["rgb", "depth", "seg"] if name in visual_shape]) * num_images
+        #     )
+        #     if "depth" in visual_shape and "seg" in visual_shape:
+        #         replaceable_kwargs["seg_per_image"] = visual_shape["seg"][-3]
+        ######
     else:
         replaceable_kwargs["obs_shape"] = deepcopy(obs_shape)
     return replaceable_kwargs
