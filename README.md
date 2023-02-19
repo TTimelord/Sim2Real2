@@ -49,7 +49,7 @@ VHACD
 ```
 cd {parent_directory_of_Sim2Real2}
 cd Sim2Real2/CEM/ManiSkill2-Learn
-python maniskill2_learn/apis/run_rl.py configs/mpc/cem/maniskill2_DigitalTwin.py --gpu-ids 0
+python maniskill2_learn/apis/run_rl.py configs/mpc/cem/maniskill2_DigitalTwin.py --gpu-ids 0 --dev
 ```
 modify the reward function in 
 

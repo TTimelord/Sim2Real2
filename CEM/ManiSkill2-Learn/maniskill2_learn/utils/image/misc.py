@@ -109,7 +109,9 @@ def append_text_to_image(image: np.ndarray, lines: List[str]):
 
 
 def put_info_on_image(image, info: Dict[str, float], extras=None, overlay=True):
-    lines = [f"{k}: {v:.3f}" for k, v in info.items() if not isinstance(v, np.ndarray)]
+    # lines = [f"{k}: {v:.3f}" for k, v in info.items() if not isinstance(v, np.ndarray)]
+    # mlq modified
+    lines = [f"{k}: {v.round(3)}" for k, v in info.items() if not isinstance(v, bool)]
     if extras is not None:
         lines.extend(extras)
     if overlay:
