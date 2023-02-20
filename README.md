@@ -5,11 +5,11 @@ Code for the ICRA 2023 paper "Sim2Real$^2$: Actively Building Explicit Physics M
 [Website](https://ttimelord.github.io/Sim2Real2)|[arXiv]()|[Video](https://youtu.be/Xj2N2Hy38P4)
 
 ## About This Repo
-The Sim2Real$^2$ algorithm has 3 parts, the **Interactive Perception** module, the **Explicit Physics Model Construction** module and the **Sampling-based Model Predictive Control** module. They are corresponding to 3 folders in this repo, `where2act`, `ditto`, and `CEM`. [Sapien](https://github.com/haosulab/SAPIEN) was used for all the training and planning processes.
+The Sim2Real$^2$ algorithm has 3 parts, the **Interactive Perception** module, the **Explicit Physics Model Construction** module, and the **Sampling-based Model Predictive Control** module. They are corresponding to 3 folders in this repo, `where2act`, `ditto`, and `CEM`. [Sapien](https://github.com/haosulab/SAPIEN) was used for all the training and planning processes.
 
 For the Interactive Perception module, We migrated [Where2Act](https://github.com/daerduoCarey/where2act) to Sapien2 and Modified the point cloud normalization method.
 
-For the Explicit Physics Model Construction modul, we reimplemented the data generation code of [Ditto](https://github.com/UT-Austin-RPL/Ditto) with Sapien2 and Open3d. The data can be collected in a multi-processes manner like where2act.
+For the Explicit Physics Model Construction module, we reimplemented the data generation code of [Ditto](https://github.com/UT-Austin-RPL/Ditto) with Sapien2 and Open3d. The data can be collected in a multi-processes manner like where2act.
 
 For the Sampling-based Model Predictive Control module, we choose [ManiSkill2](https://github.com/haosulab/ManiSkill2) and [ManiSkill2-Learn](https://github.com/haosulab/ManiSkill2-Learn) as the basic framework.
 
@@ -61,7 +61,7 @@ If you want to import the URDF built by Ditto into the simulator, we recommend y
 
 ## Training and Planning in Simulation
 ### Where2Act
-Scripts for data collection, training and evaluation are stored in `where2act/code/scripts`. Run `bash xxxx.sh` in a terminal.
+Scripts for data collection, training, and evaluation are stored in `where2act/code/scripts`. Run `bash xxxx.sh` in a terminal.
 
 ### Ditto
 Scripts for data collection are stored in `ditto/scripts`.
