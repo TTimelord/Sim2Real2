@@ -1,0 +1,1 @@
+The files in this folder is used to determine what data will be used when training. The original "stats" files are in the "original" folder.

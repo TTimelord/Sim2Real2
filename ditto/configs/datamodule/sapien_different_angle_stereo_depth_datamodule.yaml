@@ -1,0 +1,46 @@
+_target_: src.datamodules.default_datamodule.DefaultDataModule
+
+opt:
+  train:
+    dataset_type: GeoArtDatasetSapien
+    data_dir: ${data_dir} # data_dir is specified in config.yaml
+    data_path:
+      - sapien_different_angle/train
+    num_point: 8192
+    num_point_occ: 2048
+    num_point_seg: 512
+    norm: True
+    norm_padding: 0.1
+    batch_size: 32
+    num_workers: 4
+    rand_rot: False # random rotation of input data
+    weighted_occ_sample: False
+
+  val:
+    dataset_type: GeoArtDatasetSapienTest
+    data_dir: ${data_dir} # data_dir is specified in config.yaml
+    data_path:
+      - sapien_different_angle/val
+    num_point: 8192
+    #num_point_occ: 90000
+    #num_point_seg: 5000
+    norm: True
+    norm_padding: 0.1
+    batch_size: 1
+    num_workers: 4
+    rand_rot: False # random rotation of input data
+
+  test:
+    dataset_type: GeoArtDatasetSapienTest
+    data_dir: ${data_dir} # data_dir is specified in config.yaml
+    data_path:
+      - sapien_different_angle/test
+
+    num_point: 8192
+    #num_point_occ: 90000
+    #num_point_seg: 5000
+    norm: True
+    norm_padding: 0.1
+    batch_size: 1
+    num_workers: 4
+    rand_rot: False # random rotation of input data
