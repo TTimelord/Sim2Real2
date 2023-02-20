@@ -3,9 +3,3 @@ __pycache__
 .vscode
 build/
 imgui.ini
-*egg-info
-
-# pyrl
-work_dirs/
-pcd/
-trajectory/

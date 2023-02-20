@@ -2,4 +2,4 @@ wheels
 __pycache__
 .vscode
 imgui.ini
-*egg-info
+*.egg-info
