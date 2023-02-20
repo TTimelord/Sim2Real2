@@ -151,7 +151,7 @@ def make_gym_env(
         fix_seed = kwargs.pop("fix_seed", None)
 
         # mlq added
-        kwargs.pop("control_mode", None)
+        control_mode = kwargs.pop("control_mode", None)
         kwargs.pop("device", None)
 
     env = gym.make(env_name, **kwargs)
@@ -174,6 +174,9 @@ def make_gym_env(
         env = env.unwrapped if hasattr(env, "unwrapped") else env
 
     if env_type == "mani_skill2":
+        from mani_skill2.utils.wrappers import ManiSkillActionWrapper, NormalizeActionWrapper
+        env = ManiSkillActionWrapper(env, control_mode=control_mode)
+        env = NormalizeActionWrapper(env)
         env = RenderInfoWrapper(env)
         env = ManiSkill2_ObsWrapper(env, img_size=img_size, 
             n_points=n_points, n_goal_points=n_goal_points, obs_frame=obs_frame, 

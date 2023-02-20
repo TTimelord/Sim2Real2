@@ -45,7 +45,9 @@ class ManiSkillActionWrapper(ActionWrapper):
         else:
             self.env.unwrapped.agent.set_control_mode(control_mode)
         self._control_mode = control_mode
-        self.action_space = self.env.action_space[self._control_mode]
+        self.env.action_space=self.env.unwrapped.agent.action_space
+        # self.action_space = self.env.action_space[self._control_mode]
+        self.action_space = self.env.action_space  # mlq
 
     def reset(self):
         ret = super().reset()
