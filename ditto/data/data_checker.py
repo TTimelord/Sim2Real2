@@ -2,7 +2,7 @@ import numpy as np
 import open3d as o3d
 from pathlib import Path
 
-data_dir = Path('/home/rvsa/where2act_ws/Ditto/data').expanduser().resolve()
+data_dir = Path('~/Sim2Real2/ditto/data').expanduser().resolve()
 data = np.load(data_dir/'faucet_stereo/train/scenes/0011_Faucet_0.npz', allow_pickle=True)
 # data = np.load(data_dir/'laptop_stereo/train/scenes/10211_Laptop_0.npz', allow_pickle=True)
 # data = np.load(data_dir/'drawer_stereo/train/scenes/0007_Drawer_0.npz', allow_pickle=True)

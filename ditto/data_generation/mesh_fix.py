@@ -3,12 +3,13 @@ import subprocess
 from tqdm import tqdm
 from glob import glob
 
-#---------------------需要改动的参数为name/classes/sub_dataset----------------------
-data_path = '/home/rvsa/where2act_ws/Ditto/assets/urdf/Laptop'
+#---------------------modify name/classes/sub_dataset----------------------
+data_path = '~/Sim2Real2/ditto/assets/urdf/Laptop'
 
 def fixmesh(input_path,output_path):
+    # fix mesh with Manifold Plus
     try:
-        completed = subprocess.run(["/home/rvsa/where2act_ws/ManifoldPlus/build/manifold", "--input", input_path, "--output", output_path, "--depth", '7'], timeout=60, check=True, capture_output=True)
+        completed = subprocess.run(["~/Sim2Real2/ManifoldPlus/build/manifold", "--input", input_path, "--output", output_path, "--depth", '7'], timeout=60, check=True, capture_output=True)
     except:
         print("{} failed to run",format(input_path))
         return False

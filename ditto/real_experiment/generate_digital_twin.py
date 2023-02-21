@@ -89,7 +89,6 @@ def norm(a, axis=-1):
     return np.sqrt(np.sum(a ** 2, axis=axis))
 
 
-#--------------主要修改的参数为:data_model/model_id/ckpt----------------------------
 # load data
 root_path = os.getcwd()
 category = 'drawer'
@@ -136,25 +135,7 @@ config.datamodule.opt.val.data_dir = '../data/'
 config.datamodule.opt.test.data_dir = '../data/'
 model = hydra.utils.instantiate(config.model)
 
-# ckpt = torch.load('/home/xulab10/Ditto/logs/runs/2022-08-17/sapien-00-18-52/checkpoints/last.ckpt') # drawer
-# ckpt = torch.load('/home/xulab10/Ditto/logs/runs/2022-08-18/sapien-17-56-34/checkpoints/last.ckpt') # faucet
-# ckpt = torch.load('/home/xulab10/Ditto/logs/runs/2022-08-19/sapien-10-22-29/checkpoints/last.ckpt') # laptop
-
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-08-19/sapien-10-22-29/checkpoints/last.ckpt') # old laptop
-
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-05/drawer-01-05-24/checkpoints/last.ckpt') # drawer
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-05/laptop-15-21-08/checkpoints/last.ckpt') # laptop
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-06/faucet-01-10-40/checkpoints/last.ckpt') # faucet
-
-ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-04/drawer_stereo-18-25-15/checkpoints/last.ckpt') # drawer_stereo
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-04/laptop_stereo-10-23-47/checkpoints/last.ckpt') # laptop_stereo
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-07/faucet_stereo-22-26-22/checkpoints/last.ckpt') # faucet stereo
-
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-09/drawer_stereo_ablation-22-07-28/checkpoints/last.ckpt') # drawer stereo ablation
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-14/laptop_stereo_ablation-03-13-59/checkpoints/last.ckpt') # laptop stereo ablation
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-09/faucet_stereo_ablation-21-11-59/checkpoints/last.ckpt') # faucet stereo ablation
-
-# ckpt = torch.load('/home/rvsa/where2act_ws/Ditto/logs/runs/2022-09-15/all_stereo-23-40-56/checkpoints/last.ckpt') # all stereo
+ckpt = torch.load('****.ckpt') # load your model here
 
 # device = torch.device(0)
 device = torch.device('cpu')
@@ -242,7 +223,7 @@ else:
 scene = trimesh.Scene()
 static_part = mesh_dict[0].copy()
 mobile_part = mesh_dict[1].copy()
-static_part_simp = static_part.simplify_quadratic_decimation(10000)  #网格抽取算法用于简化网格
+static_part_simp = static_part.simplify_quadratic_decimation(10000)
 mobile_part_simp = mobile_part.simplify_quadratic_decimation(10000)
 mobile_part_simp.visual.face_colors = np.array(
                 [84, 220, 83, 255], dtype=np.uint8
@@ -254,9 +235,8 @@ mesh_0 = o3d.geometry.TriangleMesh(
 
 with o3d.utility.VerbosityContextManager(
         o3d.utility.VerbosityLevel.Debug) as cm:
-    #每一个三角形的索引、每一个集群中三角形的数量以及集群的表面积
     triangle_clusters, cluster_n_triangles, cluster_area = (
-        mesh_0.cluster_connected_triangles())   #将每一个三角形分配给一个连接的三角集群
+        mesh_0.cluster_connected_triangles())
 triangle_clusters = np.asarray(triangle_clusters)
 cluster_n_triangles = np.asarray(cluster_n_triangles)
 # print(cluster_n_triangles)
@@ -271,9 +251,8 @@ mesh_1 = o3d.geometry.TriangleMesh(
 # mesh_1.paint_uniform_color([0,1,0])
 with o3d.utility.VerbosityContextManager(
         o3d.utility.VerbosityLevel.Debug) as cm:
-    #每一个三角形的索引、每一个集群中三角形的数量以及集群的表面积
     triangle_clusters, cluster_n_triangles, cluster_area = (
-        mesh_1.cluster_connected_triangles())   #将每一个三角形分配给一个连接的三角集群
+        mesh_1.cluster_connected_triangles())
 triangle_clusters = np.asarray(triangle_clusters)
 cluster_n_triangles = np.asarray(cluster_n_triangles)
 # print(cluster_n_triangles)
@@ -363,7 +342,7 @@ with open(str(urdf_path) + ".yaml", 'w') as f:
     yaml.dump(digital_twin_config, f)
 
 # save a copy of config file to CEM assets
-CEM_config_path = '/home/rvsa/where2act_ws/CEM/mani_skill2/assets/config_files/digital_twins/'
+CEM_config_path = '~/Sim2Real2/CEM/mani_skill2/assets/config_files/digital_twins/'
 with open(CEM_config_path + category + '_' + model_id + ".yaml", 'w') as f:
     yaml.dump(digital_twin_config, f)
 
@@ -382,10 +361,10 @@ rgb_name = os.path.join(results_path,'rgb.png')
 cv2.imwrite(rgb_name,rgb)
 
 try:
-    completed = subprocess.run(args="/home/rvsa/where2act_ws/Ditto/real_test/./TestVHACD " + str(os.path.join(urdf_path, "mesh_0.obj")), shell=True)
-    completed = subprocess.run(["/home/rvsa/where2act_ws/Ditto/real_test/./TestVHACD " + str(os.path.join(urdf_path, "mesh_1.obj"))], shell=True)
+    completed = subprocess.run(args="~/Sim2Real2/ditto/real_test/./TestVHACD " + str(os.path.join(urdf_path, "mesh_0.obj")), shell=True)
+    completed = subprocess.run(["~/Sim2Real2/ditto/real_test/./TestVHACD " + str(os.path.join(urdf_path, "mesh_1.obj"))], shell=True)
 except:
-    print("failed to run")
+    print("failed to run VHACD, please install VHACD")
 
 # rename the decomposed file
 files = os.listdir(urdf_path)

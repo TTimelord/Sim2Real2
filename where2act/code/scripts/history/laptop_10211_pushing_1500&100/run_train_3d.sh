@@ -14,7 +14,7 @@ python train_3d.py \
     --num_interaction_data_offline 100 \
     --num_interaction_data 1 \
     --sample_succ \
-    --pretrained_critic_ckpt /home/rvsa/where2act_ws/where2act/code/logs/exp-model_3d_critic-pushing-Laptop-train_3d_critic/ckpts/32-network.pth \
+    --pretrained_critic_ckpt ~/Sim2Real2/where2act/code/logs/exp-model_3d_critic-pushing-Laptop-train_3d_critic/ckpts/32-network.pth \
     --epochs 200 \
     --overwrite
 

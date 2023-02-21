@@ -14,7 +14,7 @@ python train_3d.py \
     --num_interaction_data_offline 100 \
     --num_interaction_data 1 \
     --sample_succ \
-    --pretrained_critic_ckpt /home/rvsa/where2act_ws/where2act/code/logs/exp-model_3d_critic-pushing-Drawer-drawer_35_critic_train-val=70000-14000_off-on=100-1/ckpts/30-network.pth \
+    --pretrained_critic_ckpt ~/Sim2Real2/where2act/code/logs/exp-model_3d_critic-pushing-Drawer-drawer_35_critic_train-val=70000-14000_off-on=100-1/ckpts/30-network.pth \
     --epochs 100 \
     --overwrite \
     --num_point_per_shape 2000 \

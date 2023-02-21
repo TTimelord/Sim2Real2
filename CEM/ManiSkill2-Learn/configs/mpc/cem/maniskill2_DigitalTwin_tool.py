@@ -22,7 +22,7 @@ agent_cfg = dict(
     horizon=10,
 )
 
-DIGITAL_TWIN_CONFIG_DIR = '/home/rvsa/where2act_ws/CEM/mani_skill2/assets/config_files/digital_twins/'
+DIGITAL_TWIN_CONFIG_DIR = '~/Sim2Real2/CEM/mani_skill2/assets/config_files/digital_twins/'
 env_cfg = dict(
     type="gym",
     env_name="CEM_tool-v0",
