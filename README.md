@@ -1,6 +1,6 @@
 # Sim2Real2
 Code for the ICRA 2023 paper "Sim2Real$^2$: Actively Building Explicit Physics Model for Precise Articulated Object Manipulation"
-![Overview](docs/static/images/overview.png)
+![Overview](https://github.com/TTimelord/Sim2Real2-site/blob/main/static/images/overview.png?raw=true)
 
 [Website](https://ttimelord.github.io/Sim2Real2)|[arXiv]()|[Video](https://youtu.be/Xj2N2Hy38P4)
 
