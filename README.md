@@ -14,7 +14,9 @@ For the Explicit Physics Model Construction module, we reimplemented the data ge
 For the Sampling-based Model Predictive Control module, we choose [ManiSkill2](https://github.com/haosulab/ManiSkill2) and [ManiSkill2-Learn](https://github.com/haosulab/ManiSkill2-Learn) as the basic framework.
 
 ## Installation
-Create a conda environment. Install `pytorch` and `cuda` according to your system.
+This code has been tested on Ubuntu 20.04 with Cuda 11.6, Python 3.8, and PyTorch 1.11.0.
+
+First, create a conda environment and install `pytorch` and `cuda` according to your system.
 
 Install required packages: install the required package for each of the 3 parts, or use the integrated `requirements.txt` in the root directory.
 
