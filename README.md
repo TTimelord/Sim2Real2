@@ -2,7 +2,7 @@
 Code for the ICRA 2023 paper "Sim2Real$^2$: Actively Building Explicit Physics Model for Precise Articulated Object Manipulation"
 ![Overview](https://github.com/TTimelord/Sim2Real2-site/blob/main/static/images/overview.png?raw=true)
 
-[Website](https://ttimelord.github.io/Sim2Real2-site)|[arXiv]()|[Video](https://youtu.be/Xj2N2Hy38P4)
+[Website](https://ttimelord.github.io/Sim2Real2-site)|[arXiv](https://arxiv.org/abs/2302.10693)|[Video](https://youtu.be/Xj2N2Hy38P4)
 
 ## About This Repo
 The Sim2Real$^2$ algorithm has 3 parts, the **Interactive Perception** module, the **Explicit Physics Model Construction** module, and the **Sampling-based Model Predictive Control** module. They are corresponding to 3 folders in this repo, `where2act`, `ditto`, and `CEM`. [Sapien](https://github.com/haosulab/SAPIEN) was used for all the training and planning processes.
@@ -94,5 +94,14 @@ In order to do the real experiment, a module that can acquire measurements from 
 
 ## Citations
 ```
-
+@misc{ma2023sim2real2,
+      title={Sim2Real$^2$: Actively Building Explicit Physics Model for Preci
+se Articulated Object Manipulation}, 
+      author={Liqian Ma and Jiaojiao Meng and Shuntao Liu and Weihang Che
+n and Jing Xu and Rui Chen},
+      year={2023},
+      eprint={2302.10693},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO}
+}
 ```
