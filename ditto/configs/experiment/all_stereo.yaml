@@ -10,7 +10,8 @@ defaults:
   - override /trainer: minimal.yaml # choose trainer from 'configs/trainer/'
   - override /model: geo_art_model_v0.yaml
   - override /model/network: geo_art_net_v0.yaml
-  - override /datamodule: sapien_datamodule
+#  - override /datamodule: sapien_datamodule
+  - override /datamodule: default_datamodule
   - override /callbacks: default.yaml
   - override /logger: null
 
@@ -37,17 +38,22 @@ model:
 datamodule:
   opt:
     train:
-      batch_size: 6   #8
+      batch_size: 6   #6
       num_point: 8192
       data_path:
         - drawer_stereo/train
-        - faucet_stereo/train
-        - laptop_stereo/train
+        # - faucet_stereo/train
+        # - laptop_stereo/train
     val:
       num_point: 8192
       data_path:
-        - laptop_stereo/val
+       - drawer_stereo/val
+      #  - faucet_stereo/val
+        # - laptop_stereo/val
     test:
       num_point: 8192
       data_path:
-        - sapien/test
+      #  - sapien/test
+        # - Shape2Motion/laptop_test_standard
+        # - Shape2Motion/faucet_test_standard
+        - Shape2Motion/cabinet_test_standard

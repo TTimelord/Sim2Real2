@@ -1,4 +1,5 @@
 import copy
+import os.path
 from collections import OrderedDict
 from typing import Dict, List, Tuple, Union
 
@@ -232,7 +233,7 @@ class FixedXmate3RobotiqToolEnv(BaseEnv):
 
         config = {"material": self._physical_materials["no_friction"]}
         self._articulation = loader.load(
-            str(DIGITAL_TWIN_DIR / self._articulation_config.urdf_path), config
+            os.path.join(DIGITAL_TWIN_DIR, self._articulation_config.urdf_path), config
         )
         self._articulation.set_name(self._articulation_config.name)
 
@@ -241,7 +242,7 @@ class FixedXmate3RobotiqToolEnv(BaseEnv):
 
     def _load_agent(self):
         self._agent = FixedXmate3RobotiqTool.from_config_file(
-            AGENT_CONFIG_DIR / "fixed_xmate3_robotiq_tool.yml",
+            os.path.join(AGENT_CONFIG_DIR, "fixed_xmate3_robotiq_tool.yml"),
             self._scene,
             self._control_freq,
         )
@@ -263,10 +264,10 @@ class FixedXmate3RobotiqToolEnv(BaseEnv):
     def _load_table(self):
         loader = self._scene.create_actor_builder()
         loader.add_visual_from_file(
-            str(ASSET_DIR/"descriptions/optical_table/visual/optical_table.dae")
+            os.path.join(ASSET_DIR, "descriptions", "optical_table", "visual", "optical_table.dae")
         )
         loader.add_collision_from_file(
-            str(ASSET_DIR/"descriptions/optical_table/visual/optical_table.dae")
+            os.path.join(ASSET_DIR, "descriptions", "optical_table", "visual", "optical_table.dae")
         )
         self._table = loader.build_static(name="table")
         # self._table.set_pose(sapien.Pose([0.0, 0.0, -0.04]))

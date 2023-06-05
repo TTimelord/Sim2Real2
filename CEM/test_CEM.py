@@ -1,3 +1,5 @@
+import os.path
+
 from mani_skill2.envs.CEM_env import CEMEnv
 from mani_skill2.envs.CEM_tool_env import CEMToolEnv
 
@@ -9,7 +11,8 @@ import numpy as np
 
 
 def main():
-    digital_twin_config_path = DIGITAL_TWIN_CONFIG_DIR/'drawer_video_1.yaml'
+    digital_twin_config_path = os.path.join(DIGITAL_TWIN_CONFIG_DIR, 'laptop_video_1.yaml')
+    print(digital_twin_config_path)
     # digital_twin_config_path = DIGITAL_TWIN_CONFIG_DIR/'laptop_real_6.yaml'
 
     use_tool = False

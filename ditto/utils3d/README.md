@@ -12,8 +12,8 @@ pip install git+https://github.com/Steve-Tod/utils3d --upgrade
 ### Install locally
 
 ```bash
-git clone git@github.com:Steve-Tod/utils3d.git
-cd utils3d
+git clone git@github.com:Steve-Tod/utils3d1.git
+cd utils3d1
 pip install -e .
 ```
 

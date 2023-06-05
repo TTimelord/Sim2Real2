@@ -70,13 +70,15 @@ if not args.no_gui:
     env.set_controller_camera_pose(cam.pos[0], cam.pos[1], cam.pos[2], np.pi+cam_theta, -cam_phi)
 
 # load shape
-object_urdf_fn = '../data/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % shape_id
+#object_urdf_fn = '../data/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % shape_id
+object_urdf_fn = '/data/where2act/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % shape_id
 flog.write('object_urdf_fn: %s\n' % object_urdf_fn)
 object_material = env.get_material(4, 4, 0.01)
 state = replay_data['object_state']
 flog.write('Object State: %s\n' % state)
 out_info['object_state'] = state
-env.load_object(object_urdf_fn, object_material, state=state)
+env.load_object(object_urdf_fn, object_material, state=state,scale = 0.333)
+
 joint_angles = replay_data['joint_angles']
 env.set_object_joint_angles(joint_angles)
 out_info['joint_angles'] = joint_angles
@@ -113,7 +115,7 @@ if still_timesteps < 5000:
     exit(1)
 
 ### use the GT vision
-rgb, depth = cam.get_observation()
+rgb, depth, points = cam.get_observation()
 Image.fromarray((rgb*255).astype(np.uint8)).save(os.path.join(out_dir, 'rgb.png'))
 
 cam_XYZA_id1, cam_XYZA_id2, cam_XYZA_pts = cam.compute_camera_XYZA(depth)
@@ -140,7 +142,7 @@ out_info['pixel_locs'] = [int(x), int(y)]
 env.set_target_object_part_actor_id(object_link_ids[gt_movable_link_mask[x, y]-1])
 out_info['target_object_part_actor_id'] = env.target_object_part_actor_id
 out_info['target_object_part_joint_id'] = env.target_object_part_joint_id
-
+#print('ok')
 # get pixel 3D pulling direction (cam/world)
 direction_cam = gt_nor[x, y, :3]
 direction_cam /= np.linalg.norm(direction_cam)
@@ -221,7 +223,7 @@ robot = Robot(env, robot_urdf_fn, robot_material, open_gripper=('pulling' in pri
 # move to the final pose
 robot.robot.set_root_pose(final_pose)
 env.render()
-rgb_final_pose, _ = cam.get_observation()
+rgb_final_pose, _,_ = cam.get_observation()
 Image.fromarray((rgb_final_pose*255).astype(np.uint8)).save(os.path.join(out_dir, 'viz_target_pose.png'))
 
 # move back

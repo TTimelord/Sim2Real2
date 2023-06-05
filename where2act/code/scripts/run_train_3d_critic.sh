@@ -1,4 +1,4 @@
-python train_3d_critic.py \
+  python train_3d_critic.py \
     --exp_suffix faucet_8_critic_train-val=48000-9600_off-on=500-1 \
     --model_version model_3d_critic \
     --primact_type pushing-left \

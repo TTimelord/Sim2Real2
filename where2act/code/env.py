@@ -263,8 +263,9 @@ class Env(object):
                 break
 
     def close(self):
-        if self.show_gui:
+        if False and self.show_gui:
             self.viewer.set_scene(None)
+            print('pass')
         self.scene = None
 
 

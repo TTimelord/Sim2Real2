@@ -9,10 +9,12 @@ import numpy as np
 import h5py
 from pathlib import Path
 from tqdm import tqdm
+import os
 
 def main():
-    digital_twin_config_path = DIGITAL_TWIN_CONFIG_DIR/'drawer_video_1.yaml'
-    trajectory_path = Path(__file__).parent/'trajectory'/'drawer_video_1.h5'
+    digital_twin_config_path = os.path.join(DIGITAL_TWIN_CONFIG_DIR, 'drawer_video_1.yaml')
+    # trajectory_path = os.path.join(Path(__file__).parent, 'trajectory', 'drawer_video_1.h5')
+    trajectory_path = '/home/guest2/Documents/Sim2Real2/CEM/ManiSkill2-Learn/work_dirs/CEM-v0/20230520_180119/trajectory.h5'
 
     f = h5py.File(trajectory_path, 'r')
     states = f['/traj_0/dict_str_env_states']

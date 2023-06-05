@@ -1,4 +1,5 @@
 import copy
+import os.path
 from collections import OrderedDict
 from typing import Dict, List, Tuple, Union
 
@@ -118,62 +119,61 @@ class FixedXmate3RobotiqEnv(BaseEnv):
             self._scene.step()
 
             # compute contact reward
-        #     contacts = self._scene.get_contacts()
-        #     contact_force = []
-        #     for contact in contacts:
-        #         if (
-        #             contact.actor0 in self.agent._robot.get_links()
-        #             and contact.actor1 in self._articulation.get_links()
-        #         ) or (
-        #             contact.actor1 in self.agent._robot.get_links()
-        #             and contact.actor0 in self._articulation.get_links()
-        #         ):
-        #             if (
-        #                 (contact.actor0 == self.agent.finger1_link
-        #                 and contact.actor1 == self.target_link)
-        #                 or
-        #                 (contact.actor0 == self.agent.finger2_link
-        #                 and contact.actor1 == self.target_link)
-        #                 or
-        #                 (contact.actor1 == self.agent.finger1_link
-        #                 and contact.actor0 == self.target_link)
-        #                 or
-        #                 (contact.actor1 == self.agent.finger2_link
-        #                 and contact.actor0 == self.target_link)
-        #             ):
-        #                 for point in contact.points:
-        #                     if contact.actor0 == self.target_link:
-        #                         contact_force.append(point.impulse * self.sim_freq)
-        #                     else:
-        #                         contact_force.append(-point.impulse * self.sim_freq)
+            contacts = self._scene.get_contacts()
+            contact_force = []
+            for contact in contacts:
+                if (
+                    contact.actor0 in self.agent._robot.get_links()
+                    and contact.actor1 in self._articulation.get_links()
+                ) or (
+                    contact.actor1 in self.agent._robot.get_links()
+                    and contact.actor0 in self._articulation.get_links()
+                ):
+                    if (
+                        (contact.actor0 == self.agent.finger1_link
+                        and contact.actor1 == self.target_link)
+                        or
+                        (contact.actor0 == self.agent.finger2_link
+                        and contact.actor1 == self.target_link)
+                        or
+                        (contact.actor1 == self.agent.finger1_link
+                        and contact.actor0 == self.target_link)
+                        or
+                        (contact.actor1 == self.agent.finger2_link
+                        and contact.actor0 == self.target_link)
+                    ):
+                        for point in contact.points:
+                            if contact.actor0 == self.target_link:
+                                contact_force.append(point.impulse * self.sim_freq)
+                            else:
+                                contact_force.append(-point.impulse * self.sim_freq)
 
-        # if len(contact_force):  # contact_force may be empty
-        #     contact_force = np.vstack(contact_force)
-        #     norm = np.linalg.norm(contact_force, axis=1)
+        if len(contact_force):  # contact_force may be empty
+            contact_force = np.vstack(contact_force)
+            norm = np.linalg.norm(contact_force, axis=1)
 
-        #     # deal with 0 contact force
-        #     contact_force = contact_force[norm>0]
-        #     norm = norm[norm>0]
-        #     if len(contact_force):  # contact force may be empty again.
-        #         norm_repeat = np.repeat(norm.T, 3).reshape(contact_force.shape)
-        #         contact_force_normalized = contact_force / norm_repeat
-
-        #         joint_axis = self._target_joint.get_global_pose().to_transformation_matrix()[:3, 0]
-        #         dot_product = np.dot(contact_force_normalized, joint_axis)
-        #         if self.target_joint_type == 'prismatic':
-        #             contact_direction_err = np.sum(norm * (np.ones_like(dot_product) - np.abs(dot_product))) # sum of weighted contact direction err
-        #         else: # revolute joint
-        #             contact_direction_err = np.sum(norm * np.abs(dot_product))
-        #         # print contact direction debug information
-        #         if np.random.rand() < 0.001:
-        #             print('joint_axis:', joint_axis)
-        #             print('contact_force:', contact_force)
-        #             print('norm:', norm)
-        #             print('contact_force_normalized:', contact_force_normalized)
-        #             print('dot_product:', dot_product)
-        #             print('contact_direction_err:', contact_direction_err)
-        #             print('\n')
-        #         self.accumulated_contact_direction_err += contact_direction_err
+            # deal with 0 contact force
+            contact_force = contact_force[norm>0]
+            norm = norm[norm>0]
+            if len(contact_force):  # contact force may be empty again.
+                norm_repeat = np.repeat(norm.T, 3).reshape(contact_force.shape)
+                contact_force_normalized = contact_force / norm_repeat
+                joint_axis = self._target_joint.get_global_pose().to_transformation_matrix()[:3, 0]
+                dot_product = np.dot(contact_force_normalized, joint_axis)
+                if self.target_joint_type == 'prismatic':
+                    contact_direction_err = np.sum(norm * (np.ones_like(dot_product) - np.abs(dot_product))) # sum of weighted contact direction err
+                else: # revolute joint
+                    contact_direction_err = np.sum(norm * np.abs(dot_product))
+                # print contact direction debug information
+                if np.random.rand() < 0.001:
+                    print('joint_axis:', joint_axis)
+                    print('contact_force:', contact_force)
+                    print('norm:', norm)
+                    print('contact_force_normalized:', contact_force_normalized)
+                    print('dot_product:', dot_product)
+                    print('contact_direction_err:', contact_direction_err)
+                    print('\n')
+                self.accumulated_contact_direction_err += contact_direction_err
 
         self._agent.update_generalized_external_forces()
 
@@ -232,7 +232,7 @@ class FixedXmate3RobotiqEnv(BaseEnv):
 
         config = {"material": self._physical_materials["no_friction"]}
         self._articulation = loader.load(
-            str(DIGITAL_TWIN_DIR / self._articulation_config.urdf_path), config
+            os.path.join(DIGITAL_TWIN_DIR, self._articulation_config.urdf_path), config
         )
         self._articulation.set_name(self._articulation_config.name)
 
@@ -241,7 +241,7 @@ class FixedXmate3RobotiqEnv(BaseEnv):
 
     def _load_agent(self):
         self._agent = FixedXmate3Robotiq.from_config_file(
-            AGENT_CONFIG_DIR / "fixed_xmate3_robotiq.yml",
+            os.path.join(AGENT_CONFIG_DIR, "fixed_xmate3_robotiq.yml"),
             self._scene,
             self._control_freq,
         )
@@ -263,10 +263,10 @@ class FixedXmate3RobotiqEnv(BaseEnv):
     def _load_table(self):
         loader = self._scene.create_actor_builder()
         loader.add_visual_from_file(
-            str(ASSET_DIR/"descriptions/optical_table/visual/optical_table.dae")
+            os.path.join(ASSET_DIR, "descriptions", "optical_table", "visual", "optical_table.dae")
         )
         loader.add_collision_from_file(
-            str(ASSET_DIR/"descriptions/optical_table/visual/optical_table.dae")
+            os.path.join(ASSET_DIR, "descriptions", "optical_table", "visual", "optical_table.dae")
         )
         self._table = loader.build_static(name="table")
         # self._table.set_pose(sapien.Pose([0.0, 0.0, -0.04]))
@@ -352,7 +352,7 @@ class FixedXmate3RobotiqEnv(BaseEnv):
     def _setup_camera(self):
         self._camera = self._scene.add_camera("sideview", 1024, 1024, 1, 0.01, 10)
         self._camera.set_local_pose(
-            sapien.Pose([0.6, -1.8, 1.2], euler2quat(0, 0.5, 1.57))
+            sapien.Pose([0.8, -1.8, 1.2], euler2quat(0, 0.5, 1.57))
         )
 
     def render(self, mode="human"):

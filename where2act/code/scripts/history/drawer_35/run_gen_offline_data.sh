@@ -3,7 +3,7 @@ python gen_offline_data.py \
   --data_fn ../stats/drawer_35.txt \
   --category_types Drawer \
   --primact_types pushing \
-  --num_processes 20 \
+  --num_processes 15 \
   --num_epochs 200 \
   --ins_cnt_fn ../stats/ins_cnt_drawer_35.txt \
 

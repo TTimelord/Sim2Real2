@@ -42,12 +42,12 @@ class CEMEnv(FixedXmate3RobotiqEnv):
     _robot_init_qpos: np.ndarray
 
     def __init__(
-        self,
-        articulation_config_path,
-        obs_mode=None,
-        reward_mode=None,
-        sim_freq=500,
-        control_freq=20,
+            self,
+            articulation_config_path,
+            obs_mode=None,
+            reward_mode=None,
+            sim_freq=500,
+            control_freq=20,
     ):
         super().__init__(
             articulation_config_path, obs_mode, reward_mode, sim_freq, control_freq
@@ -55,11 +55,11 @@ class CEMEnv(FixedXmate3RobotiqEnv):
 
     def _initialize_articulation(self):
         root_pos = self._articulation_config.root_pos
-        rot_z = np.sin(self._articulation_config.root_ang/2)
+        rot_z = np.sin(self._articulation_config.root_ang / 2)
         self._articulation.set_root_pose(
             Pose(
                 root_pos,
-                [np.sqrt(1 - rot_z**2), 0, 0, rot_z],
+                [np.sqrt(1 - rot_z ** 2), 0, 0, rot_z],
             )
         )
 
@@ -86,15 +86,17 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         target_link_center_pos = bbox.get_center()
         target_link_frame_pos = self._target_link.get_pose().p
         target_link_frame_rot = self._target_link.get_pose().to_transformation_matrix()[:3, :3]
-        self._target_link_center_to_frame = np.linalg.inv(target_link_frame_rot) @ (target_link_center_pos-target_link_frame_pos)
-        
+        self._target_link_center_to_frame = np.linalg.inv(target_link_frame_rot) @ (
+                    target_link_center_pos - target_link_frame_pos)
+
         # get points far from joint axis
-        pointing_dir = vertices - target_link_frame_pos # 30000 X 3
-        axis_dir = target_link_frame_rot[:, 0] # 3
-        distance = np.sqrt(np.linalg.norm(pointing_dir, axis=1)**2 - np.dot(pointing_dir, axis_dir)**2)
+        pointing_dir = vertices - target_link_frame_pos  # 30000 X 3
+        axis_dir = target_link_frame_rot[:, 0]  # 3
+        distance = np.sqrt(np.linalg.norm(pointing_dir, axis=1) ** 2 - np.dot(pointing_dir, axis_dir) ** 2)
         index = np.argsort(distance)[-3000:]
         target_link_far_pos = np.mean(vertices[index], axis=0)
-        self._target_link_far_point_to_frame = np.linalg.inv(target_link_frame_rot) @ (target_link_far_pos - target_link_frame_pos)
+        self._target_link_far_point_to_frame = np.linalg.inv(target_link_frame_rot) @ (
+                    target_link_far_pos - target_link_frame_pos)
 
         # print(target_link_far_pos)
         # print(self._target_link_far_point_to_frame)
@@ -105,12 +107,11 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         # o3d.visualization.draw_geometries([mesh, bbox])
 
         # set physical properties for all the joints
-        self._joint_friction_range = (0.8, 1.0) # if self.target_joint_type=='prismatic' else (0.8, 0.25)
+        self._joint_friction_range = (0.8, 1.0)  # if self.target_joint_type=='prismatic' else (0.8, 0.25)
         self._joint_stiffness_range = (0.0, 0.0)
-        # self._joint_damping_range = (20.0, 30.0) # laptop
+        self._joint_damping_range = (20.0, 30.0)  # laptop
         # self._joint_damping_range = (70.0, 80.0) # drawer
-        self._joint_damping_range = (4.0, 5.0) # faucet
-
+        # self._joint_damping_range = (4.0, 5.0) # faucet
 
         joint_friction = self._episode_rng.uniform(
             self._joint_friction_range[0], self._joint_friction_range[1]
@@ -131,10 +132,10 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         # qpos = np.array([1.302, -0.541, -2.935, 1.440, 1.560, 1.553, -0.804, 0.0, 0.0])
         # qpos = np.array([1.12187,-0.384234,-2.53946,1.12766,1.32165,1.5631,-0.0644407, 0.0, 0.0])
         # qpos = np.array([-0.488665,0.340129,-1.14341,1.18789,0.346452,1.73497,0.7321,0.0,0.0]) # drawer
-        # qpos = np.array([-0.488665,0.340129,-1.14341,1.18789,0.346452,1.73497,-1,0.0,0.0]) # laptop and faucet
-        qpos = np.array([-0.488665,0.340129,-1.14341,1.18789,0.346452,1.73497,0.7321,0.0,0.0]) # faucet CW
+        qpos = np.array([-0.488665, 0.340129, -1.14341, 1.18789, 0.346452, 1.73497, -1, 0.0, 0.0])  # laptop and faucet
+        # qpos = np.array([-0.488665,0.340129,-1.14341,1.18789,0.346452,1.73497,0.7321,0.0,0.0]) # faucet CW
 
-        # qpos[:-2] += self._episode_rng.normal(0, 0.02, len(qpos) - 2)
+        qpos[:-2] += self._episode_rng.normal(0, 0.02, len(qpos) - 2)
 
         self._robot_init_qpos = qpos
         self._agent.reset(qpos)
@@ -144,7 +145,7 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         state_dict = OrderedDict()
         agent_dict = self._agent.get_proprioception()
         agent_dict["ee_pos_base"] = (
-            self._agent._robot.get_root_pose().inv() * self.grasp_site.get_pose()
+                self._agent._robot.get_root_pose().inv() * self.grasp_site.get_pose()
         ).p
         agent_dict["ee_vel_base"] = self.grasp_site.get_velocity()
         state_dict.update(
@@ -240,7 +241,7 @@ class CEMEnv(FixedXmate3RobotiqEnv):
 
     def _get_visual_state(self) -> OrderedDict:  # from ManiSkill1
         joint_pos = (
-            self._articulation.get_qpos()[self._target_joint_idx] / self.digital_twin_target_qpos
+                self._articulation.get_qpos()[self._target_joint_idx] / self.digital_twin_target_qpos
         )
         current_handle = apply_pose_to_points(
             self._handle_info["pcd"], self.target_link.get_pose()
@@ -318,10 +319,10 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         #     self._articulation.get_qpos()[self.target_joint_idx]
         #     >= self.target_qpos
         # )
-        # if self._require_grasp:
-        #     flag_dict["grasp_handle"] = self.compute_other_flag_dict()[
-        #         "ee_close_to_handle"
-        #     ]
+        if self._require_grasp:
+            flag_dict["grasp_handle"] = self.compute_other_flag_dict()[
+                "ee_close_to_handle"
+            ]
         flag_dict["success"] = convert_np_bool_to_float(all(flag_dict.values()))
         return flag_dict
 
@@ -340,24 +341,24 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         # contact_force = 0.0
         for contact in contacts:
             if (
-                contact.actor0 in self.agent._robot.get_links()
-                and contact.actor1 in self._articulation.get_links()
+                    contact.actor0 in self.agent._robot.get_links()
+                    and contact.actor1 in self._articulation.get_links()
             ) or (
-                contact.actor1 in self.agent._robot.get_links()
-                and contact.actor0 in self._articulation.get_links()
+                    contact.actor1 in self.agent._robot.get_links()
+                    and contact.actor0 in self._articulation.get_links()
             ):
                 if (
-                    (contact.actor0 == self.agent.finger1_link
-                    and contact.actor1 == self.target_link)
-                    or
-                    (contact.actor0 == self.agent.finger2_link
-                    and contact.actor1 == self.target_link)
-                    or
-                    (contact.actor1 == self.agent.finger1_link
-                    and contact.actor0 == self.target_link)
-                    or
-                    (contact.actor1 == self.agent.finger2_link
-                    and contact.actor0 == self.target_link)
+                        (contact.actor0 == self.agent.finger1_link
+                         and contact.actor1 == self.target_link)
+                        or
+                        (contact.actor0 == self.agent.finger2_link
+                         and contact.actor1 == self.target_link)
+                        or
+                        (contact.actor1 == self.agent.finger1_link
+                         and contact.actor0 == self.target_link)
+                        or
+                        (contact.actor1 == self.agent.finger2_link
+                         and contact.actor0 == self.target_link)
                 ):
                     contact_force = []
                     for point in contact.points:
@@ -371,19 +372,20 @@ class CEMEnv(FixedXmate3RobotiqEnv):
                         norm = np.linalg.norm(contact_force, axis=1)
 
                         # deal with 0 contact force
-                        contact_force = contact_force[norm>0]
+                        contact_force = contact_force[norm > 0]
                         if len(contact_force):  # contact force may be empty again.
-                            if np.abs(digital_twin_qpos - self.digital_twin_target_qpos) < np.abs(self.digital_twin_init_qpos - self.digital_twin_target_qpos) and not target_achieved_rew:
+                            if np.abs(digital_twin_qpos - self.digital_twin_target_qpos) < np.abs(
+                                    self.digital_twin_init_qpos - self.digital_twin_target_qpos) and not target_achieved_rew:
                                 contact_rew = 1.0
                             if target_achieved_rew:
                                 contact_rew = -0.5
 
                     continue
-                contact_rew = -1.0 # -6.0
+                contact_rew = -6.0  # -6.0
                 break
 
         # contact force reward
-        contact_direction_rew = -self.accumulated_contact_direction_err # average force per sim step
+        contact_direction_rew = -self.accumulated_contact_direction_err  # average force per sim step
         self.accumulated_contact_direction_err = 0.0
 
         # print contact force debug info
@@ -391,29 +393,30 @@ class CEMEnv(FixedXmate3RobotiqEnv):
         #     print('accumu:', self.accumulated_contact_force)
         #     print('rew', contact_force_rew)
 
-
         # close to digital twin target_link reward
         grasp_frame_translation = self.grasp_site.get_pose().p
         digital_twin_target_pos = self._target_link.get_pose().p
         digital_twin_target_rot = self._target_link.get_pose().to_transformation_matrix()[:3, :3]
         # digital_twin_target_center = digital_twin_target_rot @ self._target_link_center_to_frame + digital_twin_target_pos
-        digital_twin_target_center = digital_twin_target_rot @ (self._target_link_center_to_frame if self.target_joint_type == "prismatic" else self._target_link_far_point_to_frame) + digital_twin_target_pos
-        close_to_target_link_rew = -np.clip(np.linalg.norm(grasp_frame_translation - digital_twin_target_center)**2, a_min=0.0, a_max=np.inf) # move to target_link. [-oo, 0]
+        digital_twin_target_center = digital_twin_target_rot @ (
+            self._target_link_center_to_frame if self.target_joint_type == "prismatic" else self._target_link_far_point_to_frame) + digital_twin_target_pos
+        close_to_target_link_rew = -np.clip(np.linalg.norm(grasp_frame_translation - digital_twin_target_center) ** 2,
+                                            a_min=0.0, a_max=np.inf)  # move to target_link. [-oo, 0]
 
         # close to target reward
-            # we want the reward to be constant no matter the difference between target qpos and initial qpos
+        # we want the reward to be constant no matter the difference between target qpos and initial qpos
         close_to_target_qpos_rew = -np.abs(
-                                            (digital_twin_qpos - self.digital_twin_target_qpos)/
-                                            (self.digital_twin_init_qpos - self.digital_twin_target_qpos), 
-                                            dtype=np.float32)
+            (digital_twin_qpos - self.digital_twin_target_qpos) /
+            (self.digital_twin_init_qpos - self.digital_twin_target_qpos),
+            dtype=np.float32)
 
         # q_vel and q_acc punishment
-        robot_q_acc = self.agent._robot.get_qacc() # [9, ]
-        robot_q_acc_coefficient = np.array([2, 3, 2, 2, 2, 1, 1, 15, 15]) # [9, ]
-        robot_q_acc_rew = -np.sum(np.abs(robot_q_acc)*robot_q_acc_coefficient)
-        robot_q_vel = self.agent._robot.get_qvel() # [9, ]
-        robot_q_vel_coefficient = np.array([2, 3, 2, 2, 2, 1, 1, 15, 15]) # [9, ]
-        robot_q_vel_rew = -np.sum(np.abs(robot_q_vel)*robot_q_vel_coefficient)
+        robot_q_acc = self.agent._robot.get_qacc()  # [9, ]
+        robot_q_acc_coefficient = np.array([2, 3, 2, 2, 2, 1, 1, 15, 15])  # [9, ]
+        robot_q_acc_rew = -np.sum(np.abs(robot_q_acc) * robot_q_acc_coefficient)
+        robot_q_vel = self.agent._robot.get_qvel()  # [9, ]
+        robot_q_vel_coefficient = np.array([2, 3, 2, 2, 2, 1, 1, 15, 15])  # [9, ]
+        robot_q_vel_rew = -np.sum(np.abs(robot_q_vel) * robot_q_vel_coefficient)
 
         # digital twin qvel punishment
         digital_twin_qvel = self.articulation.get_qvel()[self.target_joint_idx]
@@ -426,24 +429,25 @@ class CEMEnv(FixedXmate3RobotiqEnv):
             "close_to_target_reward": close_to_target_qpos_rew * 50,
             "target_achieved_reward": target_achieved_rew * 20,
             "contact_reward": contact_rew * 10,
-            # "contact_direction_reward": contact_direction_rew * 0.6, # 0.4 # push laptop 0.6, drag laptop  # push drawer: 1.0, drag drawer 0.6
-            "robot_q_vel_reward": robot_q_vel_rew * 0.03, # 0.03,
-            "robot_q_acc_reward": robot_q_acc_rew * 0.01, # 0.01,
+            "contact_directi-on_reward": contact_direction_rew * 0.4, # 0.4 # push laptop 0.6, drag laptop  # push drawer: 1.0, drag drawer 0.6
+            "robot_q_vel_reward": robot_q_vel_rew * 0.03,  # 0.03,
+            "robot_q_acc_reward": robot_q_acc_rew * 0.01,  # 0.01,
             "digital_twin_q_vel_reward:": digital_twin_qvel_rew * 5
         }
         reward = sum(reward_dict.values())
         # print('reward:', reward)
         info_dict = {}
-        # info_dict["digital_twin_target_center"] = digital_twin_target_center
-        info_dict['step_in_ep'] = np.array(self.step_in_ep, dtype=float) # convert to float for visualization in maniskill2_learn
+        info_dict["digital_twin_target_center"] = digital_twin_target_center
+        info_dict['step_in_ep'] = np.array(self.step_in_ep,
+                                           dtype=float)  # convert to float for visualization in maniskill2_learn
         info_dict['accumulated_contact_direction_err'] = np.array(self.accumulated_contact_direction_err)
         for key in reward_dict:
             info_dict[key] = np.array(reward_dict[key])
-        info_dict['total_reward']=reward
+        info_dict['total_reward'] = reward
         if self.target_joint_type == "prismatic":
-            info_dict['qpos_error(m)']=np.abs(self.digital_twin_target_qpos-digital_twin_qpos)
+            info_dict['qpos_error(m)'] = np.abs(self.digital_twin_target_qpos - digital_twin_qpos)
         else:
-            info_dict['qpos_error(deg)']=np.rad2deg(np.abs(self.digital_twin_target_qpos-digital_twin_qpos))
+            info_dict['qpos_error(deg)'] = np.rad2deg(np.abs(self.digital_twin_target_qpos - digital_twin_qpos))
         # info_dict['robot_q_vel_rew']=robot_q_vel_rew*0.3
         # info_dict['robot_q_acc_rew']=robot_q_acc_rew*0.02
         # info_dict.update(flag_dict)
@@ -471,7 +475,6 @@ class CEMEnv(FixedXmate3RobotiqEnv):
     @property
     def table(self):
         return self._table
-
 
 # @register_gym_env("FixedOpenCabinetDoorSensor-v0", max_episode_steps=500)
 # class OpenCabinetDoorSensor(FixedXmate3RobotiqSensorEnv, OpenCabinetDoor):

@@ -182,6 +182,7 @@ class ActiveLightSensor:
         depth = calc_main_depth_from_left_right_ir(
             ir_l,
             ir_r,
+            # self._trans_pose_l,
             ex_l,
             ex_r,
             ex_main,
@@ -195,14 +196,14 @@ class ActiveLightSensor:
             register_depth=True,
             census_wsize=7,
             use_noise=True,
-                scale = 0.0, 
-                blur_ksize = 0, 
-                blur_ksigma = 0.03, # 0.03
-                speckle_shape = 398.12,  # 398.12
-                speckle_scale = 2.54e-3, # 2.54e-3
-                gaussian_mu =  -0.231, # -0.231, 
-                gaussian_sigma = 0.83, # 0.83
-                seed = 0
+            scale = 0.0,
+            blur_ksize = 0,
+            blur_ksigma = 0.03, # 0.03
+            speckle_shape = 398.12,  # 398.12
+            speckle_scale = 2.54e-3, # 2.54e-3
+            gaussian_mu =  -0.231, # -0.231,
+            gaussian_sigma = 0.83, # 0.83
+            seed = 0
         )
         
         depth[depth > self._max_depth] = 0
