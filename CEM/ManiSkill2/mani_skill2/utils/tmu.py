@@ -7,8 +7,8 @@ import numpy as np
 from mani_skill2 import ASSET_DIR
 from mani_skill2.utils.io import load_json
 
-OCRTOC_DIR = ASSET_DIR / "ocrtoc"
-DEFAULT_MODEL_JSON = OCRTOC_DIR / "models.json"
+OCRTOC_DIR = os.path.join(ASSET_DIR, "ocrtoc")
+DEFAULT_MODEL_JSON = os.path.join(OCRTOC_DIR, "models.json")
 
 
 def register_gym_env_for_OCRTOC_models(name, **kwargs):

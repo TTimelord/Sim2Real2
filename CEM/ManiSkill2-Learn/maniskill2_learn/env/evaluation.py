@@ -478,7 +478,7 @@ class Evaluation:
 
             if episode_done:
                 reset_pi()
-                log_mem_info(self.logger)
+                # log_mem_info(self.logger)
         self.finish()
         return self.episode_lens, self.episode_rewards, self.episode_finishes
 

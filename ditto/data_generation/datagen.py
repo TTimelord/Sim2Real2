@@ -40,6 +40,7 @@ class DataGen(object):
             if todo[0] == 'COLLECT':
                 cmd = 'python data_generation/collect_data.py %s %s %d --out_dir %s --stereo_out_dir %s --random_seed %d --no_gui > /dev/null 2>&1' \
                         % (todo[1], todo[2], todo[3], todo[4], todo[5], todo[6])
+                # print(cmd)
             ret = call(cmd, shell=True)
 
     def start_all(self):
@@ -55,6 +56,8 @@ class DataGen(object):
             p = mp.Process(target=self.job_func, args=(i, todos))
             p.start()
             self.processes.append(p)
+            # p.join(5)
+            # p.terminate()
         
         self.is_running = True
 

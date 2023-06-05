@@ -55,7 +55,8 @@ class SAPIENVisionDataset(data.Dataset):
             if cur_category not in self.category_types:
                 continue
 
-            with open(os.path.join(cur_dir, 'result.json'), 'r') as fin:
+            try:
+                fin = open(os.path.join(cur_dir, 'result.json'), 'r') 
                 result_data = json.load(fin)
 
                 gripper_direction_camera = np.array(result_data['gripper_direction_camera'], dtype=np.float32)
@@ -82,6 +83,9 @@ class SAPIENVisionDataset(data.Dataset):
                     cur_data = (cur_dir, cur_shape_id, cur_category, cur_cnt_id, cur_trial_id, \
                             ori_pixel_ids, pixel_ids, -gripper_direction_camera, gripper_forward_direction_camera, False, False)
                     self.false_data[cur_primact_type].append(cur_data)
+                fin.close()
+            except:
+                continue
 
         # delete data if buffer full
         if self.buffer_max_num is not None:
@@ -187,7 +191,8 @@ class SAPIENVisionDataset(data.Dataset):
         for feat in self.data_features:
             if feat == 'img':
                 with Image.open(os.path.join(cur_dir, 'rgb.png')) as fimg:
-                    out = np.array(fimg.resize((self.img_size, self.img_size)), dtype=np.float32) / 255
+                    out = np.array(fimg.resize((self.img_size, self.img_size)), dtype=np.float32) / 255 
+                    # the resize merge some pixel
                 out = torch.from_numpy(out).permute(2, 0, 1).unsqueeze(0)
                 data_feats = data_feats + (out,)
              
@@ -204,7 +209,7 @@ class SAPIENVisionDataset(data.Dataset):
                 ptid = np.array([x, y], dtype=np.int32)
                 mask = (out[:, :, 3] > 0.5)
                 mask[x, y] = False
-                pc = out[mask, :3]
+                pc = out[mask, :3] #the image area XYZ information(except the x,y point), now pc is two dimension!!
                 pcids = grid_xy[:, mask].T
                 out3 = out3[mask]
                 idx = np.arange(pc.shape[0])
@@ -212,7 +217,7 @@ class SAPIENVisionDataset(data.Dataset):
                 while len(idx) < 5000:
                     idx = np.concatenate([idx, idx])
                 idx = idx[:5000-1]
-                pc = pc[idx, :]
+                pc = pc[idx, :] # randomly choose some rows and double until 4999 rows
                 pcids = pcids[idx, :]
                 out3 = out3[idx]
                 pc = np.vstack([pt, pc])
@@ -236,6 +241,7 @@ class SAPIENVisionDataset(data.Dataset):
             elif feat == 'interaction_mask_small':
                 with Image.open(os.path.join(cur_dir, 'interaction_mask.png')) as fimg:
                     out = np.array(fimg.resize((self.img_size, self.img_size)), dtype=np.float32) / 255
+                    #the resize merge some pixel
                 out = (torch.from_numpy(out) > 0.5).float().unsqueeze(0)
                 data_feats = data_feats + (out,)
              

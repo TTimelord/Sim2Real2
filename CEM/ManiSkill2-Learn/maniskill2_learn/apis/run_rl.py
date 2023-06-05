@@ -491,8 +491,8 @@ if __name__ == "__main__":
         test_name = args.test_name if args.test_name is not None else "test"
         work_dir = osp.join(work_dir, test_name)
         # Always clean up for evaluation
-        shutil.rmtree(work_dir, ignore_errors=True)
-        os.makedirs(work_dir, exist_ok=True)
+    shutil.rmtree(work_dir, ignore_errors=True)
+    os.makedirs(work_dir, exist_ok=True)
     args.work_dir = work_dir
 
     logger_name = cfg.env_cfg.env_name if is_not_null(cfg.env_cfg) else cfg.agent_cfg.type
@@ -500,6 +500,7 @@ if __name__ == "__main__":
     if args.test_name is not None:
         args.name_suffix += f"-{args.test_name}"
     os.environ["PYRL_LOGGER_NAME"] = f"{logger_name}-{args.name_suffix}"
-    cfg.dump(osp.join(work_dir, f"{args.timestamp}-{args.name_suffix}.py"))
+    filename = osp.join(work_dir, f"{args.timestamp}-{args.name_suffix}.py")
+    cfg.dump(filename)
 
     main()

@@ -1,4 +1,5 @@
 import copy
+import os.path
 from collections import OrderedDict, deque
 from pathlib import Path
 from typing import Dict, List, Tuple
@@ -108,7 +109,7 @@ def create_mounted_sensor(
         ir_intrinsic=ir_intrinsic,
         trans_pose_l=trans_pose_l,
         trans_pose_r=trans_pose_r,
-        light_pattern=str(ASSET_DIR / config.light_pattern_path),
+        light_pattern=os.path.join(ASSET_DIR, config.light_pattern_path),
         max_depth=config.max_depth,
         min_depth=config.min_depth,
         ir_ambient_strength=config.ir_ambient_strength,
@@ -206,8 +207,11 @@ class BaseAgent:
         loader.load_multiple_collisions_from_file = True
 
         urdf_file = self._config.urdf_file
+        # print('urdf_file: ', urdf_file)
         urdf_config = parse_urdf_config(self._config.urdf_config, self._scene)
-        self._robot = loader.load(str(DESCRIPTION_DIR/urdf_file), urdf_config)
+        # print('urdf_config: ', urdf_config)
+        self._robot = loader.load(os.path.join(DESCRIPTION_DIR, urdf_file), urdf_config)
+        # print('self._robot: ', self._robot)
         self._robot.set_name(self._config.name)
 
     def _initialize_controllers(self):

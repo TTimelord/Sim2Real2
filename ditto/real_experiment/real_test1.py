@@ -37,9 +37,9 @@ from PIL import Image
 from src.third_party.ConvONets.conv_onet.generation_two_stage import Generator3D
 from src.utils.joint_estimation import aggregate_dense_prediction_r
 from src.utils.misc import sample_point_cloud
-from utils3d.mesh.utils import as_mesh
-from utils3d.render.pyrender import PyRenderer
-from utils3d.utils.utils import get_pose
+from utils3d1.mesh.utils import as_mesh
+from utils3d1.render.pyrender import PyRenderer
+from utils3d1.utils.utils import get_pose
 
 
 # from src.utils.joint_estimation import (

@@ -28,9 +28,7 @@ def get_random_qpos():
     open_extent_diff_max = 0.4
 
     while True:
-        end_open_extent = np.random.rand() 
-
-
+        end_open_extent = np.random.rand()
         print('end_open_extent：', end_open_extent)
         if abs(start_open_extent - end_open_extent) > open_extent_diff_min \
                 and abs(start_open_extent - end_open_extent) < open_extent_diff_max:
@@ -98,14 +96,11 @@ def get_mesh_pose_list_from_pre_generated_mesh(use_fixed):
 
 
 def get_occ(n_iou_points):
-    # mesh_pose_list = get_mesh_pose_list(env)
-    mesh_pose_list = get_mesh_pose_list_from_pre_generated_mesh(use_fixed=True)
-
+    mesh_pose_list = get_mesh_pose_list()
+    # mesh_pose_list = get_mesh_pose_list_from_pre_generated_mesh(use_fixed=True)
     mesh_list = get_meshes(mesh_pose_list)
-
     points_occ, occ, occ_list, bounds = sample_iou_points(
         mesh_list, n_iou_points)
-
     return points_occ, occ_list
 
 def get_meshes(mesh_pose_list):
@@ -190,6 +185,11 @@ if __name__ == '__main__':
     parser.add_argument('--no_gui', action='store_true', default=False, help='no_gui [default: False]')
     args = parser.parse_args()
 
+    pcd_path = f"/home/guest2/Documents/Sim2Real2/ditto/real_test/real_datasets/laptop/video_{args.cnt_id}"
+    if not os.path.exists(pcd_path):
+        os.mkdir(pcd_path)
+        os.mkdir(os.path.join(pcd_path, "digital_twin"))
+
     shape_id = args.shape_id
     out_dir = args.out_dir
     category = args.category
@@ -221,7 +221,7 @@ if __name__ == '__main__':
     # if np.random.random() < 0.5:
     #     state = 'closed'
 
-    env.load_object(object_urdf_fn, object_material, scale = 0.5)
+    env.load_object(object_urdf_fn, object_material, scale=0.5)
 
     # setup camera
     # cam = Camera(env, random_position=True)
@@ -297,6 +297,8 @@ if __name__ == '__main__':
         # pc = volume.extract_point_cloud()
 
         pcd_clean = o3d.geometry.PointCloud.create_from_depth_image(o3d.geometry.Image(clean_depth), intrinsics_o3d, extrinsics)
+        pcd_filename = os.path.join(pcd_path, f"pcd_{qpos_idx+1}.pcd")
+        o3d.io.write_point_cloud(pcd_filename, pcd_clean)
         pcd_stereo = o3d.geometry.PointCloud.create_from_depth_image(o3d.geometry.Image(stereo_depth), intrinsics_o3d, extrinsics)
 
         pcd_clean = pcd_clean.voxel_down_sample(voxel_size=0.002)
@@ -348,6 +350,5 @@ if __name__ == '__main__':
     # save results
     np.savez(out_name, **out_dict)
     np.savez(stereo_out_name, **out_dict_stereo_depth)
-
-    # env.close() # segmentation fault
+    env.close() # segmentation fault
 

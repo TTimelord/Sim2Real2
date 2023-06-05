@@ -31,6 +31,7 @@ class ConfigDict(Dict):
             ex = e
         else:
             return value
+
         raise ex
 
 
@@ -134,7 +135,7 @@ class Config:
                 Config._validate_py_syntax(filename)
                 mod = import_module(temp_module_name)
                 sys.path.pop(0)
-                cfg_dict = {name: value for name, value in mod.__dict__.items() if not name.startswith("__")}
+                cfg_dict = {name: value for name, value in mod.__dict__.items() if not name.startswith("__") and name != 'os'}
                 # delete imported module
                 del sys.modules[temp_module_name]
             elif filename.endswith((".yml", ".yaml", ".json")):

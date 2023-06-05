@@ -30,10 +30,10 @@ def train(conf, train_shape_list, train_data_list, val_data_list, all_train_data
             'result', 'cur_dir', 'shape_id', 'trial_id', 'is_original']
      
     # load network model
-    model_def = utils.get_model_module(conf.model_version)
+    model_def = utils.get_model_module(conf.model_version) # this line has already get the form of the model
 
     # create models
-    network = model_def.Network(conf.feat_dim)
+    network = model_def.Network(conf.feat_dim) #feature dimension
     utils.printout(conf.flog, '\n' + str(network) + '\n')
 
     # create optimizers
@@ -106,13 +106,14 @@ def train(conf, train_shape_list, train_data_list, val_data_list, all_train_data
         ### collect data for the current epoch
         if epoch > start_epoch:
             utils.printout(conf.flog, f'  [{strftime("%H:%M:%S", time.gmtime(time.time()-start_time)):>9s} Waiting epoch-{epoch} data ]')
-            train_data_list = datagen.join_all()
+            train_data_list = datagen.join_all() # all the finished data.
             utils.printout(conf.flog, f'  [{strftime("%H:%M:%S", time.gmtime(time.time()-start_time)):>9s} Gathered epoch-{epoch} data ]')
             cur_data_folders = []
             for item in train_data_list:
                 item = '/'.join(item.split('/')[:-1])
                 if item not in cur_data_folders:
                     cur_data_folders.append(item)
+                    print(item)
             for cur_data_folder in cur_data_folders:
                 with open(os.path.join(cur_data_folder, 'data_tuple_list.txt'), 'w') as fout:
                     for item in train_data_list:
@@ -310,7 +311,7 @@ def forward(batch, data_features, network, conf, \
     gripper_img_target = torch.cat(batch[data_features.index('gripper_img_target')], dim=0).to(conf.device)     # B x 3 x H x W
  
     # for each type of loss, compute losses per data
-    result_loss_per_data = network.critic.get_ce_loss(pred_result_logits, gt_result)
+    result_loss_per_data = network.critic.get_ce_loss(pred_result_logits, gt_result) # cross entropy loss
     
     # for each type of loss, compute avg loss per batch
     result_loss = result_loss_per_data.mean()

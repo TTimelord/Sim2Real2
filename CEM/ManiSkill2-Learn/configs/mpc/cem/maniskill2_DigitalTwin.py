@@ -1,3 +1,5 @@
+import os.path
+
 log_level = "INFO"
 
 agent_cfg = dict(
@@ -22,18 +24,18 @@ agent_cfg = dict(
     horizon=10,
 )
 
-DIGITAL_TWIN_CONFIG_DIR = '~/Sim2Real2/where2act_ws/CEM/mani_skill2/assets/config_files/digital_twins/'
+DIGITAL_TWIN_CONFIG_DIR = '/home/guest2/Documents/Sim2Real2/ditto/real_test/real_datasets/faucet/video_1/digital_twin'
 env_cfg = dict(
     type="gym",
     env_name="CEM-v0",
-    articulation_config_path=DIGITAL_TWIN_CONFIG_DIR+'faucet_video_2.yaml',
+    articulation_config_path=os.path.join(DIGITAL_TWIN_CONFIG_DIR, 'faucet_video_1.yaml'),
     unwrapped=False,
     obs_mode="state_dict",
     reward_mode="dense",
-    # reward_scale=0.3,
+    reward_scale=0.3,
     control_mode="pd_joint_delta_pos",
     # control_mode='pd_ee_twist',
-    # control_mode = 'pd_ee_delta_pos',
+    # control_mode='pd_ee_delta_pos',
     use_cost=False,
     # vhacd_mode="new",
     horizon=50,

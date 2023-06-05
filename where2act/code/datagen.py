@@ -63,11 +63,14 @@ class DataGen(object):
                         % (todo[1], todo[2], todo[3], todo[4], todo[5], todo[6], todo[7], todo[8])
                 folder_name = todo[3]
                 job_name = todo[2]
+                #print(cmd)
             elif todo[0] == 'CHECKCOLLECT':
                 cmd = 'python checkcollect_data.py %s %s %s --random_seed %d --no_gui --x %d --y %d --dir1 %s --dir2 %s > /dev/null 2>&1' \
                         % (todo[1], todo[2], todo[3], todo[4], todo[5], todo[6], todo[7], todo[8])
                 folder_name = todo[3]
                 job_name = todo[2]
+            flog = open(os.path.join('results', 'log.txt'), 'w')
+            flog.write(cmd)
             ret = call(cmd, shell=True)
             if ret == 0:
                 succ_todos.append(os.path.join(folder_name, job_name))

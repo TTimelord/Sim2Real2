@@ -182,7 +182,8 @@ class Env(object):
 
     def close(self):
         if self.show_gui:
-            self.viewer.set_scene(None)
+            # self.viewer.set_scene(None)
+            self.viewer.close()
         self.scene = None
 
 

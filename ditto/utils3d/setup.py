@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="utils3d",  # change "src" folder name to your project name
+    name="utils3d1",  # change "src" folder name to your project name
     version="0.0.0",
     description="some 3D related utilities",
     author="Zhenyu Jiang",

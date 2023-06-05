@@ -64,8 +64,9 @@ env.set_controller_camera_pose(cam.pos[0], cam.pos[1], cam.pos[2], np.pi+cam.the
 mat33 = cam.mat44[:3, :3]
 
 # load shape
-# object_urdf_fn = '../data/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % eval_conf.shape_id
-object_urdf_fn = '../urdf/selected_data/faucet/%s/mobility.urdf' % testing_conf.shape_id
+#object_urdf_fn = '../data/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % testing_conf.shape_id
+object_urdf_fn = '/data/where2act/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % testing_conf.shape_id
+#object_urdf_fn = '../urdf/selected_data/faucet/%s/mobility.urdf' % testing_conf.shape_id
 object_material = env.get_material(4, 4, 0.01)
 state = 'random-middle'
 # state = 'closed'
@@ -73,7 +74,7 @@ state = 'random-middle'
 # if np.random.random() < 0.5:
 #     state = 'closed'
 print('Object State: %s' % state)
-env.load_object(object_urdf_fn, object_material, state=state, scale = 0.2)
+env.load_object(object_urdf_fn, object_material, state=state, scale = 0.333)
 cur_qpos = env.get_object_qpos()
 
 # simulate some steps for the object to stay rest
@@ -160,8 +161,8 @@ with torch.no_grad():
     best_action_point = pc[0].cpu().numpy()[best_action_point_index]
     best_action_point += center
 
-    pred_6d = network.inference_actor(pc, index=best_action_point_index)[0]  # RV_CNT x 6
-    pred_Rs = network.actor.bgs(pred_6d.reshape(-1, 3, 2))    # RV_CNT x 3 x 3
+    pred_6d = network.inference_actor(pc, index=best_action_point_index)[0]  # RV_CNT x 6,6 are the first two axes of the rotation matrix.
+    pred_Rs = network.actor.bgs(pred_6d.reshape(-1, 3, 2))    # RV_CNT x 3 x 3, this step get the rotation matrix
 
     result_score = 0
     best_gripper_direction_camera = None
@@ -202,6 +203,7 @@ rotmat[:3, 2] = up
 
 
 final_dist = 0.0
+foward_offset =0.0
 if primact_type == 'pushing-left':
     final_dist = -0.01
     foward_offset = 0.1
@@ -299,7 +301,8 @@ except ContactError:
     success = False
 
 env.wait_to_start()
-
+print('pass!')
 # close env
 env.close()
+print('pass!!')
 

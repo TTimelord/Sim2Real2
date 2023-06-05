@@ -5,6 +5,8 @@
 """
 
 import os
+import faulthandler
+faulthandler.enable()
 import sys
 import shutil
 import numpy as np
@@ -61,7 +63,8 @@ if not args.no_gui:
 
 # load shape
 # object_urdf_fn = '../data/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % shape_id
-object_urdf_fn = '../urdf/selected_data/faucet/%s/mobility.urdf' % shape_id
+object_urdf_fn = '/data/where2act/where2act_original_sapien_dataset/%s/mobility_vhacd.urdf' % shape_id
+# object_urdf_fn = '../urdf/selected_data/faucet/%s/mobility.urdf' % shape_id
 flog.write('object_urdf_fn: %s\n' % object_urdf_fn)
 object_material = env.get_material(0.0, 0.0, 0.01)
 # state = 'closed'
@@ -71,7 +74,7 @@ state = 'random-middle'
 #     state = 'closed'
 flog.write('Object State: %s\n' % state)
 out_info['object_state'] = state
-joint_angles = env.load_object(object_urdf_fn, object_material, state=state, scale = 0.2)
+joint_angles = env.load_object(object_urdf_fn, object_material, state=state, scale = 0.333)
 out_info['joint_angles'] = joint_angles
 out_info['joint_angles_lower'] = env.joint_angles_lower
 out_info['joint_angles_upper'] = env.joint_angles_upper
@@ -200,6 +203,7 @@ rotmat[:3, 1] = left
 rotmat[:3, 2] = up
 
 final_dist = 0.0
+foward_offset = 0.0
 if primact_type == 'pushing-left':
     final_dist = -0.01
     foward_offset = 0.1
@@ -317,7 +321,7 @@ with open(os.path.join(out_dir, 'result.json'), 'w') as fout:
 
 #close the file
 flog.close()
-
+print('All data have been generated')
 if args.no_gui:
     # close env
     env.close()
@@ -330,4 +334,3 @@ else:
         print('[Unsuccessful Interaction] invalid gripper-object contact.')
         # close env
         env.close()
-

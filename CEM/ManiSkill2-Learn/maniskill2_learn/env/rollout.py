@@ -15,7 +15,7 @@ class Rollout:
         self.vec_env = build_vec_env(env_cfg, num_procs, seed=seed, **kwargs)
         self.with_info = with_info
         self.num_envs = self.vec_env.num_envs
-    
+        # print('ok')
     def __getattr__(self, name):
         return getattr(self.vec_env, name)
 

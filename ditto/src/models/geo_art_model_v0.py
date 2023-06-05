@@ -64,12 +64,13 @@ class GeoArtModelV0(pl.LightningModule):
 
     def training_step(self, data, batch_idx):
         (
-            logits_occ,
-            logits_seg,
+            logits_occ,                 #
+            logits_seg,                 #
             logits_joint_type,
             joint_param_revolute,
             joint_param_prismatic,
         ) = self(data["pc_start"], data["pc_end"], data["p_occ"], data["p_seg"])
+
         joint_label = data["joint_type"].unsqueeze(
             -1).repeat(1, data["p_seg"].size(1))
         loss_occ = self.cri_cls(
