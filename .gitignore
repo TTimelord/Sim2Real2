@@ -4,4 +4,4 @@ __pycache__
 imgui.ini
 *.egg-info
 .idea
-ditto/assets/original_sapien_dataset/*
+ditto/assets/original_sapien_dataset
