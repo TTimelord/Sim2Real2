@@ -1,0 +1,31 @@
+Collecting sapien
+  Downloading sapien-2.2.1-cp37-cp37m-manylinux2014_x86_64.whl (39.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39.1/39.1 MB 4.3 MB/s eta 0:00:00
+Collecting numpy>=1.17
+  Downloading numpy-1.21.6-cp37-cp37m-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (15.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 60.8 MB/s eta 0:00:00
+Collecting opencv-python>=4.0
+  Using cached opencv_python-4.7.0.72-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (61.8 MB)
+Collecting requests>=2.22
+  Using cached requests-2.28.2-py3-none-any.whl (62 kB)
+Collecting transforms3d>=0.3
+  Using cached transforms3d-0.4.1.tar.gz (1.4 MB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting idna<4,>=2.5
+  Using cached idna-3.4-py3-none-any.whl (61 kB)
+Requirement already satisfied: certifi>=2017.4.17 in /home/rvsa/anaconda3/envs/where2act3/lib/python3.7/site-packages (from requests>=2.22->sapien) (2022.12.7)
+Collecting urllib3<1.27,>=1.21.1
+  Downloading urllib3-1.26.15-py2.py3-none-any.whl (140 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 140.9/140.9 kB 27.8 MB/s eta 0:00:00
+Collecting charset-normalizer<4,>=2
+  Downloading charset_normalizer-3.1.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (171 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 171.0/171.0 kB 30.8 MB/s eta 0:00:00
+Building wheels for collected packages: transforms3d
+  Building wheel for transforms3d (setup.py): started
+  Building wheel for transforms3d (setup.py): finished with status 'done'
+  Created wheel for transforms3d: filename=transforms3d-0.4.1-py3-none-any.whl size=1376757 sha256=df9e5047066e1396b042ef8944e6a65807bbca95569d373f0b94532d9d758aa2
+  Stored in directory: /home/guest3/.cache/pip/wheels/0b/2a/fe/379cf61e108f06750107439af6531daf372d7de2c390a939b4
+Successfully built transforms3d
+Installing collected packages: urllib3, transforms3d, numpy, idna, charset-normalizer, requests, opencv-python, sapien
+Successfully installed charset-normalizer-3.1.0 idna-3.4 numpy-1.21.6 opencv-python-4.7.0.72 requests-2.28.2 sapien-2.2.1 transforms3d-0.4.1 urllib3-1.26.15
