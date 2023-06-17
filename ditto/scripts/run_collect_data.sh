@@ -22,7 +22,7 @@
 #   Laptop \
 #   1 \
 
-python data_generation/create_pcd.py 0007 Drawer 1 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
+#python data_generation/create_pcd.py 0007 Drawer 1 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
 #python data_generation/create_pcd.py 0008 Drawer 2 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
 #python data_generation/create_pcd.py 0009 Drawer 3 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
 #python data_generation/create_pcd.py 0010 Drawer 4 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
@@ -37,5 +37,6 @@ python data_generation/create_pcd.py 0007 Drawer 1 --out_dir results --stereo_ou
 # python data_generation/collect_data.py 0014 Drawer 6 --out_dir results --stereo_out_dir results/stereo --no_gui # > /dev/null 2>&1
 # python data_generation/collect_data.py 0015 Drawer 7 --out_dir results --stereo_out_dir results/stereo --no_gui # > /dev/null 2>&1
 # python data_generation/collect_data.py 0017 Drawer 8 --out_dir results --stereo_out_dir results/stereo --no_gui # > /dev/null 2>&1
-python data_generation/create_pcd.py 9748 Laptop 1 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
 #python data_generation/create_pcd.py 0011 Faucet 1 --out_dir results --stereo_out_dir results/stereo # > /dev/null 2>&1
+
+python data_generation_allegro/create_pcd.py --no_gui 9748 Laptop 1 # > /dev/null 2>&1

@@ -1,0 +1,11 @@
+<launch>
+  <param name="robot_description"
+    command="$(find xacro)/xacro.py '$(find xmate3_description)/urdf/xmate3.xacro'" />
+   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    <param name="use_gui" value="TRUE"/>
+  </node> 
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find xmate3_description)/launch/xmate3.rviz"/>
+
+</launch>

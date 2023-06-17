@@ -1,0 +1,387 @@
+<?xml version="1.0"?>
+<!-- xmate3 manipulator -->
+
+<!--  Attention!!! inertia in the model is not correct!!! -->
+
+<robot name="xmate3" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+ 
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <!--xacro:include filename="$(find XB06_description)/urdf/XB06.gazebo" /-->
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find xmate3_description)/urdf/materials.xacro" />
+  <xacro:property name="nameofManipulator" value = "xmate3"/>
+
+  <!-- Used for fixing robot to Gazebo 'base_link' -->
+  <link name="world"/>
+    <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="${nameofManipulator}_base"/>
+  </joint>
+  
+ 
+
+
+<!--base-->
+  <link name="${nameofManipulator}_base">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+       <material name="white"/>
+    </visual>
+    <inertial>
+      
+  <mass value="5.48267"/>
+  <inertia ixx="0.056" ixy="0" ixz="0" iyy="0.066" iyz="0" izz="0.035"/>
+  <origin rpy="0 0 0" xyz="-0.0183 0 0.067"/> 
+    </inertial>
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+  
+  <joint name="xmate_joint_1" type="revolute">
+    <parent link="${nameofManipulator}_base"/>
+    <child link="${nameofManipulator}_link1"/>
+ <limit effort="300" lower="-3.0527" upper="3.0527" velocity="10"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+ </joint>
+ 
+<transmission name="tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  
+  
+  
+<!--link 1-->  
+  <link name="${nameofManipulator}_link1">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="white"/>
+    </visual>
+    
+    <inertial>      
+     <mass value="3.37289"/>
+     <inertia ixx="0.314" ixy="0" ixz="0" iyy="0.310" iyz="0" izz="0.01"/>
+     <origin rpy="0 0 0" xyz="0 -0.023 0.295"/>
+
+     </inertial>
+    
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+  
+  <joint name="xmate_joint_2" type="revolute">
+    <parent link="${nameofManipulator}_link1"/>
+    <child link="${nameofManipulator}_link2"/>
+  <limit effort="300" lower="-2.0933" upper="2.0933" velocity="10"/>
+    <axis xyz="0 1 0"/>
+	<origin rpy="0 0 0" xyz="0 0 0.34260487"/>
+    </joint>
+  
+   <transmission name="tran2">
+     <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+
+
+
+
+<!--link 2-->  
+  <link name="${nameofManipulator}_link2">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+     <origin rpy="0 0 0" xyz="0 0 0.0"/>
+     <material name="white"/>
+    </visual>
+    
+    
+    <inertial>
+    <mass value="3.74765"/>
+    <inertia ixx="0.074" ixy="0" ixz="0" iyy="0.067" iyz="0" izz="0.014"/>
+    <origin rpy="0 0 0" xyz="0 0.032 0.095"/>
+    </inertial>
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0"/>
+    </collision>
+  </link>
+ 
+   
+  <joint name="xmate_joint_3" type="revolute">
+    <parent link="${nameofManipulator}_link2"/>
+    <child link="${nameofManipulator}_link3"/>
+  <limit effort="300" lower="-3.0527" upper="3.0527" velocity="10"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 0" xyz="0 0 0.23743878"/>
+  </joint>
+  
+  
+   <transmission name="tran3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+
+<!--${nameofManipulator}_link 3--> 
+  <link name="${nameofManipulator}_link3">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0 0 0.15549959"/>
+      <material name="white"/>
+    </visual>
+
+    <inertial>    
+    <mass value="3.38216"/>
+    <inertia ixx="0.028" ixy="0" ixz="0" iyy="0.025" iyz="0" izz="0.01"/>
+    <origin rpy="0 0 0" xyz="0 -0.023 -0.048"/>
+
+    </inertial>
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+         <origin rpy="0 0 0" xyz="0 0 0.15549959"/>
+      </collision>
+  </link>
+ 
+  <joint name="xmate_joint_4" type="revolute">
+    <parent link="${nameofManipulator}_link3"/>
+    <child link="${nameofManipulator}_link4"/>
+   <limit effort="300" lower="-2.0933" upper="2.0933" velocity="10"/>
+<!--     lower="-2.79" upper="2.79" -->
+    <axis xyz="0 1 0"/>
+<!--     <origin rpy="0 0 0" xyz="0.585 0.0 0.035"/> -->
+    <origin rpy="0 0 0" xyz="0 0 0.15549959"/>
+  </joint>
+  
+  <transmission name="tran4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_4">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor4">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+<!--link 4--> 
+  <link name="${nameofManipulator}_link4">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link4.stl" scale=".001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="white"/>
+    </visual>
+    <inertial>
+
+    <mass value="3.21031"/>
+    <inertia ixx="0.027" ixy="0" ixz="0" iyy="0.024" iyz="0" izz="0.007"/>
+    <origin rpy="0 0 0" xyz="0 0.037 0.075"/>
+
+    </inertial>
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link4.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+  
+  
+  <joint name="xmate_joint_5" type="revolute">
+    <parent link="${nameofManipulator}_link4"/>
+    <child link="${nameofManipulator}_link5"/>
+  <limit effort="300" lower="-3.0527" upper="3.0527" velocity="10"/>
+    <axis xyz="0 0 1"/>
+   <origin rpy="0 0 0" xyz="0 0 0.22044633"/>
+  </joint>
+  
+  
+  <transmission name="tran5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_5">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor5">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+
+
+
+<!--link 5--> 
+  <link name="${nameofManipulator}_link5">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link5.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+       <origin rpy="0 0 0" xyz="0 0 0.14512568"/>
+      <material name="white"/>
+      </visual>
+
+    <inertial>
+      <mass value="2.5992"/>
+    <inertia ixx="0.022" ixy="0" ixz="0" iyy="0.018" iyz="0" izz="0.0076"/>
+      <origin rpy="0 0 0" xyz="0 -0.025 -0.052"/>
+    </inertial>
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link5.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+       <origin rpy="0 0 0" xyz="0 0 0.14512568"/>
+    </collision>
+  </link>
+  
+  <joint name="xmate_joint_6" type="revolute">
+    <parent link="${nameofManipulator}_link5"/>
+    <child link="${nameofManipulator}_link6"/>
+   <limit effort="300" lower="-2.0933" upper="2.0933" velocity="10"/>
+    <axis xyz="0 1 0"/>
+    <origin rpy="0.0 0.0 0" xyz="0 0 0.14512568" />
+  </joint>
+  
+  
+  <transmission name="tran6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_6">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor6">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+
+
+<!--link 6--> 
+  <link name="${nameofManipulator}_link6">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link6.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <material name="white"/>
+    </visual>
+    
+    <inertial>
+      
+      <mass value="2.6002"/>
+      <inertia ixx="0.016" ixy="-0.000000" ixz="-0.000000" iyy="0.0156" iyz="-0.000000" izz="0.0042"/>
+      <origin rpy="0 0 0" xyz="0 0.02 0.073"/>
+
+    </inertial>
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link6.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+    </collision>
+  </link>
+
+  <joint name="xmate_joint_7" type="revolute">
+    <parent link="${nameofManipulator}_link6"/>
+    <child link="${nameofManipulator}_link7"/>
+   <limit effort="300" lower="-6.283" upper="6.283" velocity="10"/>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0 0 0.25090877" />
+  </joint>
+  
+  
+  <transmission name="tran7">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="xmate_joint_7">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor7">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<!--link 7--> 
+  <link name="${nameofManipulator}_link7">
+    <visual>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/visual/${nameofManipulator}_link7.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="white"/>
+    </visual>
+    
+    <inertial>
+      
+      <mass value="1.50517"/>
+      <inertia ixx="0.0037" ixy="0" ixz="0" iyy="0.0021" iyz="0" izz="0.0030"/>
+      <origin rpy="0 0 0" xyz="0 0.023 -0.044"/>
+
+    </inertial>
+    
+    <collision>
+      <geometry>
+        <mesh filename="package://${nameofManipulator}_description/meshes/collision/${nameofManipulator}_link7.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+  
+</robot>

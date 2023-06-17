@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>xmate3_description</name>
+  <version>0.0.1</version>
+  <description>The xmate3_description package</description>
+
+  <maintainer email="zhangbiao@rokae.com">Biao Zhang</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
+

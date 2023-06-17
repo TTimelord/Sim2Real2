@@ -7,7 +7,7 @@ from env import Env
 
 class Camera(object):
 
-    def __init__(self, env: Env, near=0.1, far=100.0, image_size=448, dist=3.0, \
+    def __init__(self, env: Env, near=0.1, far=100.0, image_size=448, dist=3.0,
             phi=np.pi/5, theta=np.pi, fov=35, random_position=False, fixed_position=False):
         builder = env.scene.create_actor_builder()
         camera_mount_actor = builder.build_kinematic()

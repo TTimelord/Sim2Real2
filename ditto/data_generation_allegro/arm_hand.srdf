@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="arm_hand">
+  <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+  <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+  <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+  <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+  <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+  <group name="xmate3_arm">
+    <joint name="virtual_joint"/>
+    <joint name="joint1"/>
+    <joint name="joint2"/>
+    <joint name="joint3"/>
+    <joint name="joint4"/>
+    <joint name="joint5"/>
+    <joint name="joint6"/>
+    <joint name="joint7"/>
+    <joint name="joint8"/>
+    <joint name="joint9"/>
+  </group>
+  <group name="hand">
+    <link name="palm_link">
+    <link name="link_0.0">
+    <link name="link_1.0">
+    <link name="link_2.0">
+    <link name="link_3.0">
+    <link name="link_3.0_tip">
+    <link name="link_4.0">
+    <link name="link_5.0">
+    <link name="link_6.0">
+    <link name="link_7.0">
+    <link name="link_7.0_tip">
+    <link name="link_8.0">
+    <link name="link_9.0">
+    <link name="link_10.0">
+    <link name="link_11.0">
+    <link name="link_11.0_tip">
+    <link name="link_12.0">
+    <link name="link_13.0">
+    <link name="link_14.0">
+    <link name="link_15.0">
+    <link name="link_15.0_tip">
+  </group>
+  <group_state name="home" group="xmate3_arm">
+    <joint name="joint1" value="0"/>
+    <joint name="joint2" value="0"/>
+    <joint name="joint3" value="0"/>
+    <joint name="joint4" value="0"/>
+    <joint name="joint5" value="0"/>
+    <joint name="joint6" value="0"/>
+    <joint name="joint7" value="0"/>
+  </group_state>
+  <end_effector name="eef" parent_link="xmate3_link7" group="hand"/>
+  <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="xmate3_base"/>
+  <disable_collisions link1="xmate3_base" link2="xmate3_link1" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link1" link2="xmate3_link2" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link2" link2="xmate3_link3" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link3" link2="xmate3_link4" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link4" link2="xmate3_link5" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link5" link2="xmate3_link6" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link6" link2="xmate3_link7" reason="Adjacent"/>
+  <disable_collisions link1="xmate3_link7" link2="hand_to_arm.SLDPRT" reason="Adjacent"/>
+  <disable_collisions link1="hand_to_arm.SLDPRT" link2="palm_link" reason="Adjacent"/>
+  <disable_collisions link1="palm_link" link2="link_0.0" reason="Adjacent"/>
+  <disable_collisions link1="link_0.0" link2="link_1.0" reason="Adjacent"/>
+  <disable_collisions link1="link_1.0" link2="link_2.0" reason="Adjacent"/>
+  <disable_collisions link1="link_2.0" link2="link_3.0" reason="Adjacent"/>
+  <disable_collisions link1="link_3.0" link2="link_3.0_tip" reason="Adjacent"/>
+  <disable_collisions link1="palm_link" link2="link_4.0" reason="Adjacent"/>
+  <disable_collisions link1="link_4.0" link2="link_5.0" reason="Adjacent"/>
+  <disable_collisions link1="link_5.0" link2="link_6.0" reason="Adjacent"/>
+  <disable_collisions link1="link_6.0" link2="link_7.0" reason="Adjacent"/>
+  <disable_collisions link1="link_7.0" link2="link_7.0_tip" reason="Adjacent"/>
+  <disable_collisions link1="palm_link" link2="link_8.0" reason="Adjacent"/>
+  <disable_collisions link1="link_8.0" link2="link_9.0" reason="Adjacent"/>
+  <disable_collisions link1="link_9.0" link2="link_10.0" reason="Adjacent"/>
+  <disable_collisions link1="link_10.0" link2="link_11.0" reason="Adjacent"/>
+  <disable_collisions link1="link_11.0" link2="link_11.0_tip" reason="Adjacent"/>
+  <disable_collisions link1="palm_link" link2="link_12.0" reason="Adjacent"/>
+  <disable_collisions link1="link_12.0" link2="link_13.0" reason="Adjacent"/>
+  <disable_collisions link1="link_13.0" link2="link_14.0" reason="Adjacent"/>
+  <disable_collisions link1="link_14.0" link2="link_15.0" reason="Adjacent"/>
+  <disable_collisions link1="link_15.0" link2="link_15.0_tip" reason="Adjacent"/>
+</robot>

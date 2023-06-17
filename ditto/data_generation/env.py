@@ -85,6 +85,7 @@ class Env(object):
         self.viewer.set_camera_xyz(x, y, z)
         self.viewer.set_camera_rpy(0.0, pitch, yaw)
         self.viewer.render()
+
     def take_rgb_picture(self, path):
         res = self.scene.get_cameras()
         print(len(res), " camera(s).")
