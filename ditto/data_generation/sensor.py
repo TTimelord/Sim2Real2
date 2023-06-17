@@ -31,8 +31,8 @@ class Sensor(object):
             theta = np.pi
             phi = np.pi/10
         dist = 1.4
-        pos = np.array([dist*np.cos(phi)*np.cos(theta), \
-                dist*np.cos(phi)*np.sin(theta), \
+        pos = np.array([dist*np.cos(phi)*np.cos(theta),
+                dist*np.cos(phi)*np.sin(theta),
                 dist*np.sin(phi)])
         forward = -pos / np.linalg.norm(pos)
         left = np.cross([0, 0, 1], forward)

@@ -104,7 +104,7 @@ category = args.category
 model_id = f'video_{args.cnt_id}'
 realdata_path = os.path.join(root_path, 'real_test/real_datasets', category)
 
-target_qpos = 0.19
+target_qpos = 0.39
 
 pcd_path = os.path.join(realdata_path, model_id)
 results_path = os.path.join(pcd_path, 'digital_twin')
@@ -135,7 +135,7 @@ with initialize(config_path='../configs/'):
     config = compose(
         config_name='config',
         overrides=[
-            'experiment=all_stereo.yaml',
+            'experiment=laptop.yaml',
         ], return_hydra_config=True)
 config.datamodule.opt.train.data_dir = '../data/'
 config.datamodule.opt.val.data_dir = '../data/'
@@ -143,7 +143,8 @@ config.datamodule.opt.test.data_dir = '../data/'
 model = hydra.utils.instantiate(config.model)
 
 # ckpt = torch.load('****.ckpt')  # load your model here
-ckpt = torch.load('/home/guest2/Documents/Sim2Real2/ditto/logs/runs/2023-05-11/all_stereo.yaml-18-34-25/checkpoints/epoch51.ckpt')
+# ckpt = torch.load('/home/guest2/Documents/Sim2Real2/ditto/logs/runs/2023-06-06/laptop.yaml-17-24-34/checkpoints/epoch118.ckpt')
+ckpt = torch.load('/home/guest2/Documents/Sim2Real2/ditto/Ditto_s2m.ckpt')
 
 # device = torch.device(0)
 device = torch.device('cpu')

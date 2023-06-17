@@ -43,7 +43,7 @@ class GeoArtDatasetV1(Dataset):
     def __getitem__(self, index):
         data = np.load(self.path_list[index])
         pc_start, pc_start_idx = sample_point_cloud(data["pc_start"], self.num_point)
-        pc_end, pc_end_idx = sample_point_cloud(data["pc_end"], self.num_point
+        pc_end, pc_end_idx = sample_point_cloud(data["pc_end"], self.num_point)
         pc_start_end = data["pc_start_end"][pc_start_idx]
         pc_end_start = data["pc_end_start"][pc_end_idx]
         pc_seg_label_start = data["pc_seg_start"][pc_start_idx]

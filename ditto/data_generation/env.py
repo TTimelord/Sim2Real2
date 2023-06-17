@@ -85,18 +85,26 @@ class Env(object):
         self.viewer.set_camera_xyz(x, y, z)
         self.viewer.set_camera_rpy(0.0, pitch, yaw)
         self.viewer.render()
+    def take_rgb_picture(self, path):
+        res = self.scene.get_cameras()
+        print(len(res), " camera(s).")
+        for cam in res:
+            print(cam.pose.p, cam.pose.q)
 
-    def load_object(self, urdf, material, scale=1.0):
+    def load_object(self, urdf, material, scale=1.0, q=None):
+        if not q:
+            q = [1, 0, 0, 0]
         loader = self.scene.create_urdf_loader()
         # print('scale:', scale)
         loader.scale = scale
         self.object = loader.load(urdf, {"material": material})
-        # random rotation around z aixs
+        # random rotation around z axis
         theta_z_max = np.deg2rad(60)
         theta_z = (np.random.rand()*2-1) * theta_z_max + np.pi/12 # pi \pm theta_z_max + offset
         if 'Laptop' not in urdf:
             theta_z += np.pi
-        pose = Pose([self.object_position_offset, 0, 0], [np.cos(theta_z/2), 0, 0, np.sin(theta_z/2)])
+        # pose = Pose([self.object_position_offset, 0, 0], [np.cos(theta_z/2), 0, 0, np.sin(theta_z/2)])
+        pose = Pose([self.object_position_offset, 0, 0], q)
         self.object.set_root_pose(pose)
         self.object_rotz = theta_z
         # compute link actor information

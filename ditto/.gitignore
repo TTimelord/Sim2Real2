@@ -1,3 +1,5 @@
 # dirs
 build/
 .stl
+/data/
+/logs/

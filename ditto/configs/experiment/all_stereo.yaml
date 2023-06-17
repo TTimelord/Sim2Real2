@@ -38,22 +38,22 @@ model:
 datamodule:
   opt:
     train:
-      batch_size: 6   #6
+      batch_size: 8   #6
       num_point: 8192
       data_path:
-        - drawer_stereo/train
+#        - drawer_stereo/train
         # - faucet_stereo/train
-        # - laptop_stereo/train
+         - laptop_stereo/train
     val:
       num_point: 8192
       data_path:
-       - drawer_stereo/val
+#       - drawer_stereo/val
       #  - faucet_stereo/val
-        # - laptop_stereo/val
+         - laptop_stereo/val
     test:
       num_point: 8192
       data_path:
       #  - sapien/test
-        # - Shape2Motion/laptop_test_standard
+         - Shape2Motion/laptop_test_standard
         # - Shape2Motion/faucet_test_standard
-        - Shape2Motion/cabinet_test_standard
+#        - Shape2Motion/cabinet_test_standard
