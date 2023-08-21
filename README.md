@@ -94,14 +94,13 @@ In order to do the real experiment, a module that can acquire measurements from 
 
 ## Citations
 ```
-@misc{ma2023sim2real2,
-      title={Sim2Real$^2$: Actively Building Explicit Physics Model for Preci
-se Articulated Object Manipulation}, 
-      author={Liqian Ma and Jiaojiao Meng and Shuntao Liu and Weihang Che
-n and Jing Xu and Rui Chen},
-      year={2023},
-      eprint={2302.10693},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
-}
+@INPROCEEDINGS{10160370,
+  author={Ma, Liqian and Meng, Jiaojiao and Liu, Shuntao and Chen, Weihang and Xu, Jing and Chen, Rui},
+  booktitle={2023 IEEE International Conference on Robotics and Automation (ICRA)}, 
+  title={Sim2Real2: Actively Building Explicit Physics Model for Precise Articulated Object Manipulation}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={11698-11704},
+  doi={10.1109/ICRA48891.2023.10160370}}
 ```
